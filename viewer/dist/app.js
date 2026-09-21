@@ -1,5 +1,5 @@
 const $=id=>document.getElementById(id);
-const state={summary:null,left:null,right:null,t:180,playing:true,speed:8,selected:null,scenario:'am',controller:'bounded-jev',loading:false};
+const state={summary:null,left:null,right:null,t:180,playing:true,speed:8,selected:null,study:'coordinated',scenario:'am',controller:'plan-jev',loading:false};
 const cache=new Map();
 const vehicleColors=['#276aaf','#c69216','#537c3f','#ab4444','#7852a0','#277e79','#343434','#ab653e'];
 const fmt=(n,d=1)=>n==null?'—':Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});
@@ -75,8 +75,27 @@ function updateMetrics(which,data){
   $(which+'-metrics').innerHTML=`<div class="metric"><strong>${fmt(m.queued,0)}</strong><span>vehicles queued</span></div><div class="metric"><strong>${fmt(m.mean_delay_s)}<small> s</small></strong><span>delay / requested trip</span></div><div class="metric"><strong>${fmt(m.completed,0)}</strong><span>evaluation trips finished</span></div>`;
 }
 function decision(){
+  const corridor=state.study==='coordinated'&&state.right?.plan_installs;
+  const planStatus=$('plan-status');planStatus.hidden=!corridor;
+  let installations={},lastCorridor=null;
+  if(corridor){
+    for(const x of state.right.plan_installs){if(x.t>state.t)break;installations[x.junction]=x;}
+    for(const x of state.right.actions||[]){if(x.t<=state.t&&x.accepted)lastCorridor=x;}
+    const target=lastCorridor?.action||state.right.result.initial_plan;
+    const adopted=Object.keys(state.right.junctions).filter(id=>(installations[id]?.plan||'g52')===target).length;
+    const label=state.right.result.plan_library[target]?.label||target;
+    planStatus.textContent=`Selected plan: ${label}. ${adopted}/12 intersections have adopted it.${lastCorridor?` Selected at ${clock(lastCorridor.t)}${lastCorridor.source==='fallback'?' (retained after an unavailable response)':''}.`:''} Splits change at local cycle starts.`;
+  }
   const el=$('decision');if(!state.selected||!state.right){el.hidden=true;return;}
   el.hidden=false;const id=state.selected,items=state.right.actions||[];
+  if(corridor){
+    const current=installations[id],green=current?.avenue_green_s||52;
+    const [ave,st]=id.split('_');
+    const forecast=lastCorridor&&(state.right.plan_decisions||[]).find(q=>q.observed_sim_s===lastCorridor.observed_t);
+    const forecastNote=forecast?` At that observation, the selected plan’s forecast objective was ${fmt(forecast.candidates[lastCorridor.action].objective,0)} vehicle-seconds; the numerical minimum was ${fmt(forecast.candidates[forecast.numerical_choice].objective,0)} (${forecast.candidates[forecast.numerical_choice].label}). This is predicted queue delay plus a terminal queue penalty, not measured travel time.`:'';
+    el.innerHTML=`<strong>${ave}th Avenue & West ${st}th Street</strong> · Active split: <span>${green} s avenue / ${82-green} s cross street</span>. ${current?`Installed at ${clock(current.t)}; next cycle ${clock(current.cycle_start_s+90)}.`:'Initial reference cycle.'}${lastCorridor?` Last corridor decision arrived ${fmt(lastCorridor.t-lastCorridor.observed_t,2)} s after observation.`:''}${forecastNote}`;
+    return;
+  }
   let last=null;for(let i=items.length-1;i>=0;i--){if(items[i].junction===id&&items[i].t<=state.t){last=items[i];break;}}
   const [ave,st]=id.split('_');
   const bounded=last&&['keep','avenue_plus_5','cross_plus_5'].includes(last.action);
@@ -101,9 +120,18 @@ function table(){
     const policyNote=bounded?` Jev retained the baseline in ${fmt(bounded.choices.keep||0,0)} of ${fmt(bounded.model_actions_applied,0)} applied choices across both scenarios.${replayKept?' The seed-11 replay retained the baseline throughout.':''}`:'';
     $('result-callout').innerHTML=`${summary.names[state.controller]} ${outcome}. Paired difference: ${diff>0?'+':''}${fmt(diff,precision)} s per requested trip${ci?` (95% interval: ${fmt(ci[0],precision)} to ${fmt(ci[1],precision)} s)`:''}; ${p.n} paired seeds. ${equal?'These seeds produced identical delay; other conditions may differ. ':ci&&ci[0]<=0&&ci[1]>=0?'The interval includes no difference. ':''}This comparison applies to the modeled conditions.${policyNote}`;
   }else $('result-callout').textContent='The benchmark is running. This viewer shows actual recorded trajectories; aggregate Jev results will appear after the real-time runs finish.';
+  const comparison=state.controller==='plan-jev'&&summary.jev_comparisons?.[state.scenario];
+  $('selector-comparison').hidden=!comparison;
+  if(comparison){
+    $('selector-comparison').textContent=['plan-numeric','library-fixed'].map(c=>{
+      const p=comparison[c];return p?`Versus ${summary.names[c].toLowerCase()}: ${p.mean_difference>0?'+':''}${fmt(p.mean_difference,2)} s/trip (95% interval ${fmt(p.ci95[0],2)} to ${fmt(p.ci95[1],2)}).`:'';
+    }).join(' ');
+  }
   const v=summary.validation,a=v?.primary_audit,b=summary.bounded_validation;
   const boundedNote=b?` Bounded Jev: ${fmt(b.requests,0)} API batches, median ${fmt(b.latency_s.p50*1000,0)} ms, P95 ${fmt(b.latency_s.p95*1000,0)} ms; ${b.timing_violations} timing violations.`:'';
   $('verification-note').innerHTML=a?`A conventional rerun reproduced exactly; 42 sensitivity runs completed. Turning-flow error against the input counts was ${fmt(v.input_flow_check.weighted_absolute_relative_error*100,2)}% (in-sample). For native Jev, across ${fmt(a.jev_requests,0)} real API batches, latency was ${fmt(a.latency_s.p50*1000,0)} ms at the median and ${fmt(a.latency_s.p95*1000,0)} ms at P95. No model action preceded its response.${boundedNote} <strong class="caution">Field validation remains outstanding.</strong>`:'';
+  const audit=summary.coordinated_validation;
+  if(audit)$('verification-note').innerHTML=`${fmt(audit.phase_durations_checked,0)} phase durations and ${fmt(audit.cycles_checked,0)} cycles checked; ${audit.timing_violations} timing violations. Jev agreed with the numerical choice on ${audit.agrees_with_numerical_selector}/${audit.model_actions} decisions. Request latency: median ${fmt(audit.latency_s.p50*1000,0)} ms, P95 ${fmt(audit.latency_s.p95*1000,0)} ms. ${audit.api_errors} API errors; ${audit.deadline_misses} missed deadlines; ${audit.fallback_actions} retained-plan fallbacks. No action preceded its response or eligible cycle.${summary.execution_retry?` A laptop sleep invalidated the first 15 live attempts; the full batch was repeated unchanged. Details are in the report.`:''} <strong class="caution">Field validation remains outstanding.</strong>`;
   const d=summary.diagnostics;
   const checks=[{text:`${summary.valid_runs}/${summary.completed_runs} valid runs`,pass:summary.valid_runs===summary.completed_runs},...['collisions','teleports','conflicting_green_steps'].map((k,i)=>{const n=d.reduce((a,r)=>a+r[k],0);return{text:`${n} ${['simulated collisions','teleports','conflicting greens'][i]}`,pass:n===0}})];
   $('validation').innerHTML=checks.map(x=>`<span class="check"><span class="${x.pass?'pass':'fail'}">${x.pass?'✓':'×'}</span>${x.text}</span>`).join('');
@@ -114,7 +142,7 @@ async function loadComparison(){
   state.loading=true;$('status').textContent='Loading synchronized replay…';
   const available=state.summary.replays[state.scenario];
   for(const option of $('controller').options)option.disabled=!available[option.value];
-  if(!available[state.controller])state.controller=available.pressure?'pressure':available.actuated?'actuated':'jev';
+  if(!available[state.controller])state.controller=Object.keys(available).find(c=>c!=='fixed');
   $('controller').value=state.controller;
   try{
     if(!available.fixed||!available[state.controller])throw new Error('Paired replay is still being prepared.');
@@ -124,11 +152,12 @@ async function loadComparison(){
     if(state.left.result.demand_sha256!==state.right.result.demand_sha256)throw new Error('The replay schedules do not match.');
     $('timeline').max=state.left.result.horizon_s;state.t=Math.min(state.t,state.left.result.horizon_s-.3);
     const e=state.right.result.execution;
-    $('latency').textContent=['jev','bounded-jev'].includes(state.controller)?`API p95 ${fmt(e.latency_p95_s*1000,0)} ms`:'Observed road state';
-    $('status').textContent=state.summary.status!=='complete'?`${state.summary.completed_runs}/${state.summary.expected_runs} runs available`:state.scenario==='surge'?'Demand increases by 50% during minutes 5:30–10:30.':'';
+    $('latency').textContent=['jev','bounded-jev','plan-jev'].includes(state.controller)?`Request p95 ${fmt(e.latency_p95_s*1000,0)} ms`:state.controller==='library-fixed'?'One tuned plan':'Observed road state';
+    $('status').textContent=state.summary.status!=='complete'?`${state.summary.completed_runs}/${state.summary.expected_runs} runs available`:state.summary.scenario_notes?.[state.scenario]||(state.scenario==='surge'?'Demand increases by 50% during minutes 5:30–10:30.':'');
     table();decision();
   }catch(error){if(request===comparisonRequest)$('status').textContent=error.message;}finally{if(request===comparisonRequest)state.loading=false;}
 }
+$('study').addEventListener('change',()=>loadStudy($('study').value));
 $('scenario').addEventListener('change',()=>{state.scenario=$('scenario').value;state.selected=null;loadComparison();});
 $('controller').addEventListener('change',()=>{state.controller=$('controller').value;loadComparison();});
 $('play').addEventListener('click',()=>{state.playing=!state.playing;$('play').textContent=state.playing?'Pause':'Play';$('play').setAttribute('aria-label',state.playing?'Pause replay':'Play replay');});
@@ -148,22 +177,41 @@ function animate(now){
   if(now-metricTime>150){metricTime=now;updateMetrics('left',state.left);updateMetrics('right',state.right);$('time').textContent=clock(state.t);$('phase').textContent=state.t<180?'Warm-up':state.t<780?'Evaluation':'Drain';$('timeline').value=state.t;decision();}
   requestAnimationFrame(animate);
 }
+let studyRequest=0;
+async function loadStudy(study){
+  const request=++studyRequest;++comparisonRequest;state.loading=true;
+  try{
+    const response=await fetch(study==='coordinated'?'data/coordinated-summary.json':'data/summary.json',{cache:'no-store'});
+    if(!response.ok)throw new Error('Benchmark data is not available.');
+    const summary=await response.json();if(request!==studyRequest)return;
+    state.summary=summary;state.study=study;state.scenario='am';state.selected=null;state.left=null;state.right=null;
+    state.controller=study==='coordinated'?'plan-jev':'bounded-jev';
+    const scenarios=summary.scenario_names||{am:'Weekday morning',surge:'Morning + 50% surge'};
+    $('study').value=study;$('scenario').replaceChildren(...Object.entries(scenarios).map(([id,name])=>new Option(name,id)));
+    $('controller').replaceChildren(...Object.entries(summary.names).filter(([c])=>c!=='fixed').reverse().map(([id,name])=>new Option(name,id)));
+    const seed=summary.replay_seed||11;$('run-label').textContent=`Recorded run · seed ${seed}`;$('caption-seed').textContent=`seed ${seed}`;
+    $('report-download').href=summary.downloads?.report||'data/benchmark-report.md';$('runs-download').href=summary.downloads?.runs||'data/runs.json';
+    $('original-method').hidden=study!=='original';$('coordinated-method').hidden=study!=='coordinated';
+    await loadComparison();
+  }catch(error){if(request===studyRequest){state.loading=false;$('status').textContent=error.message;}}
+}
 async function initialize(){
-  try{const response=await fetch('data/summary.json',{cache:'no-store'});if(!response.ok)throw new Error('Benchmark data is not available.');state.summary=await response.json();await loadComparison();}catch(error){$('status').textContent=error.message;}
+  await loadStudy(state.study);
   requestAnimationFrame(animate);
 }
 initialize();
 // Public, read-only state is useful to verify the viewer without inspecting private API data.
-window.trafficLab={getState:()=>({scenario:state.scenario,controller:state.controller,time:state.t,playing:state.playing,loaded:!!state.left&&!!state.right,selected:state.selected,completedRuns:state.summary?.completed_runs}),seek:t=>{state.t=Math.max(0,Math.min(+t,state.left?.result.horizon_s||960));state.playing=false;$('play').textContent='Play';}};
+window.trafficLab={getState:()=>({study:state.study,scenario:state.scenario,controller:state.controller,time:state.t,playing:state.playing,loaded:!!state.left&&!!state.right,selected:state.selected,completedRuns:state.summary?.completed_runs}),seek:t=>{state.t=Math.max(0,Math.min(+t,state.left?.result.horizon_s||960));state.playing=false;$('play').textContent='Play';}};
 if(document.modelContext?.registerTool){
   const lifecycle=new AbortController();
   const tools=[{
     name:'inspect_traffic_benchmark',title:'Inspect traffic benchmark',description:'Read the displayed benchmark results and current replay selection. Does not run simulations or call Jev.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:false},
     execute:input=>{if(!input||Object.keys(input).length)throw new Error('No arguments expected.');return{view:window.trafficLab.getState(),results:state.summary?.groups[state.scenario],paired:state.summary?.paired[state.scenario]};}
   },{
-    name:'configure_traffic_replay',title:'Configure traffic replay',description:'Choose a recorded traffic scenario and controller, then pause both synchronized views at the requested elapsed time. No new inference is performed.',inputSchema:{type:'object',properties:{scenario:{type:'string',enum:['am','surge']},controller:{type:'string',enum:['bounded-jev','jev','pressure','actuated']},time_seconds:{type:'number',minimum:0,maximum:959}},required:['scenario','controller','time_seconds'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},
+    name:'configure_traffic_replay',title:'Configure traffic replay',description:'Choose a recorded traffic scenario and controller, then pause both synchronized views at the requested elapsed time. No new inference is performed.',inputSchema:{type:'object',properties:{study:{type:'string',enum:['coordinated','original']},scenario:{type:'string',enum:['am','surge','shift']},controller:{type:'string',enum:['plan-jev','plan-numeric','library-fixed','bounded-jev','jev','pressure','actuated']},time_seconds:{type:'number',minimum:0,maximum:959}},required:['study','scenario','controller','time_seconds'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},
     async execute(input){
-      if(!input||!['am','surge'].includes(input.scenario)||!['bounded-jev','jev','pressure','actuated'].includes(input.controller)||typeof input.time_seconds!=='number'||!Number.isFinite(input.time_seconds)||input.time_seconds<0||input.time_seconds>959||Object.keys(input).some(k=>!['scenario','controller','time_seconds'].includes(k)))throw new Error('Invalid replay configuration.');
+      if(!input||!['coordinated','original'].includes(input.study)||!['am','surge','shift'].includes(input.scenario)||!['plan-jev','plan-numeric','library-fixed','bounded-jev','jev','pressure','actuated'].includes(input.controller)||typeof input.time_seconds!=='number'||!Number.isFinite(input.time_seconds)||input.time_seconds<0||input.time_seconds>959||Object.keys(input).some(k=>!['study','scenario','controller','time_seconds'].includes(k)))throw new Error('Invalid replay configuration.');
+      if(state.study!==input.study)await loadStudy(input.study);
       if(!state.summary?.replays[input.scenario]?.[input.controller])throw new Error('That recorded controller is not available yet.');
       state.scenario=input.scenario;state.controller=input.controller;$('scenario').value=state.scenario;state.selected=null;
       await loadComparison();window.trafficLab.seek(input.time_seconds);$('play').setAttribute('aria-label','Play replay');

@@ -2,6 +2,8 @@
 
 A working **SUMO microscopic simulation** of a schematic Midtown South street grid: Sixth and Seventh Avenues at West 25th–30th Streets. Compare a tuned fixed-time signal plan, a simple actuated controller, a queue-pressure rule, native **TypeSafe Jev** decisions and a separate **bounded Jev** controller.
 
+The new **coordinated plan selection** experiment adds a corridor-wide Jev controller, a matched numerical selector and a retuned fixed baseline. Select the experiment in the viewer. Its fresh seeds and results are kept separate from the original controllers; see the [coordinated results](docs/COORDINATED_RESULTS.md).
+
 The browser viewer displays recorded SUMO vehicle trajectories side by side. It does not generate traffic outcomes in JavaScript. Jev's benchmark runs advance at one simulated second per wall-clock second, with real API calls in a separate worker while traffic keeps moving.
 
 **Evidence level: NYC-informed, vehicle-only simulation.** The AM turning volumes are published NYC study inputs. Geometry, lanes, signal timings, vehicle behavior and fleet mix are assumptions. This is not a reconstruction of verified DOT operation or an independently validated NYC digital twin. No pedestrian, cyclist, bus-stop or crash-safety benefit is claimed.
@@ -55,6 +57,35 @@ Run the separate bounded extension after the original benchmark (the launcher re
 ```
 
 The bounded benchmark also makes paid, real-time API calls and takes approximately 16 minutes at concurrency ten. The keep-only run is a deterministic regression check, without API calls. `bounded_protocol.json` freezes the new policy and all original result hashes before evaluation. The audit verifies the actual signal transitions, response arrival times and exact keep-only equivalence. Native Jev is neither rerun nor replaced by this command. For another experiment, retain the existing evidence and use a fresh checkout/output set rather than overwriting it.
+
+## Coordinated plan selection
+
+This experiment uses four arms: the original 52/30-second fixed plan, the best single plan from a development sweep, a numerical selector and Jev choosing from the same plan library. All retain 90-second cycles and the original coordination offsets. The new controllers change persistent green-split profiles across all twelve intersections; this version does not change offsets or cycle lengths.
+
+Seven profiles were evaluated on six development demand patterns and seeds 901–902 (84 simulations). The five retained plans include the original reference, one winner per development pattern and the best static plan across the morning/surge/directional-shift mixture. The retuned fixed baseline is selected before evaluation so ordinary retiming is not credited to Jev.
+
+Every 90 seconds, starting at second 60, the selectors receive current queues and occupancies, the last two minutes of arrivals and an approximate 180-second queue forecast for every candidate. Forecasts use observed vehicle positions and speeds and propagate traffic between finite-capacity links using recent boundary arrival rates, published turn shares and assumed discharge rates. The numerical arm minimizes forecast queue delay plus a terminal queue penalty; Jev evaluates the same candidates with a neutral prompt. Neither receives future departures, scenario labels or scheduled demand-change times.
+
+The selected plan becomes eligible three seconds after observation and rolls into each intersection at its next local cycle start. This preserves coordination and clearance durations. Actual observation, forecast and API time are measured; Jev runs at 1x wall time, with a two-second request deadline and no retries. Late or failed requests retain the current plan. Numerical computation is also measured and delayed before acceptance. Installation waits affect both arms' traffic outcomes.
+
+Evaluation uses fresh seeds 31–35, four arms and three scenarios (60 runs). The directional case is synthetic: baseline inflow for the first 200 evaluation seconds, then avenue inflow ×0.65 and cross-street inflow ×2.2 for 200 seconds, then avenue ×1.4 and cross street ×0.6. Morning and uniform surge remain in the benchmark. Compare Jev against both fixed plans and the numerical selector using paired intervals; improvement over the original reference alone does not isolate a Jev contribution.
+
+From a fresh output set, after retaining the original evidence:
+
+```sh
+.venv/bin/python -m trafficlab.tune_plans
+.venv/bin/python -m trafficlab.run_coordinated --controller fixed --seed 11 --drain 180 --tag plan_fixed_check --out-root tmp/plan-validation
+.venv/bin/python -m trafficlab.benchmark_coordinated --only conventional --parallel 3
+.venv/bin/python -m trafficlab.benchmark_coordinated --only jev --parallel 15
+.venv/bin/python -m trafficlab.validate_coordinated
+.venv/bin/python -m trafficlab.report_coordinated
+```
+
+Keep the host awake and its network connected throughout live runs. On macOS, prefix the live benchmark command with `caffeinate -diu`; leave the lid open. The first coordinated live batch was invalidated by host sleep and repeated in full with unchanged controllers. Its metrics, file hashes and execution evidence are retained in [the retry record](results/coordinated_execution_retry.json).
+
+The selected library and completed results are already included in this checkout. The tuning/benchmark commands refuse to overwrite them. The live command uses the configured paid TypeSafe account; fifteen staggered concurrent replications take about 16 minutes. Independent validation checks observed signal phases, cycle starts, per-intersection installation times, model-answer agreement, actual response timing, paired demand, conservation and the hashes of all fifty previous results. A fixed-only regression exactly reproduces the original runner.
+
+`results/coordinated_protocol.json` freezes the experiment before evaluation. `results/coordinated_summary.json` and `coordinated_validation.json` contain results and audit evidence. The viewer exports these separately as `coordinated-summary.json`, `coordinated-runs.json` and `coordinated-report.md`, with preselected seed-31 trajectories. Raw forecasts, API responses, actions and signal-installation logs remain in `results/raw/plan_*/`.
 
 Preview the exported viewer:
 

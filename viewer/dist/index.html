@@ -16,8 +16,9 @@
   </header>
 
   <section class="toolbar" aria-label="Comparison controls">
+    <label for="study">Experiment <select id="study"><option value="coordinated">Coordinated plans</option><option value="original">Original controllers</option></select></label>
     <label for="scenario">Demand scenario <select id="scenario"><option value="am">Weekday morning</option><option value="surge">Morning + 50% surge</option></select></label>
-    <span class="run-label">Recorded run &middot; seed 11</span>
+    <span class="run-label" id="run-label">Recorded run</span>
     <button id="details-button" class="text-button" aria-expanded="false" aria-controls="details">Methods &amp; assumptions</button>
   </section>
   <div id="status" role="status">Loading recorded results…</div>
@@ -42,13 +43,15 @@
       <select id="speed" aria-label="Playback speed"><option value="1">1×</option><option value="4">4×</option><option value="8" selected>8×</option><option value="20">20×</option></select>
       <div class="legend"><span>Vehicle colors match across views</span><span><i class="stopped"></i>Stopped outline</span></div>
     </div>
-    <figcaption><strong>Figure 1.</strong> Synchronized vehicle trajectories for the same departures, routes and driver settings. Counters show progress in seed 11. Playback speed changes only the animation; traffic continued moving during the original Jev requests.</figcaption>
+    <figcaption><strong>Figure 1.</strong> Synchronized vehicle trajectories for the same departures, routes and driver settings. Counters show progress in <span id="caption-seed">the recorded run</span>. Playback speed changes only the animation; traffic continued moving during the original Jev requests.</figcaption>
   </figure>
+  <p id="plan-status" class="plan-status" hidden></p>
   <section id="decision" class="decision" hidden aria-live="polite"></section>
 
   <section class="benchmark" aria-labelledby="results-title">
-    <div class="section-title"><h2 id="results-title">1. Results</h2><div class="downloads"><a href="data/benchmark-report.md" download="midtown-benchmark-report.md">Full report</a><a href="data/runs.json" download="midtown-benchmark-runs.json">Run data</a></div></div>
+    <div class="section-title"><h2 id="results-title">1. Results</h2><div class="downloads"><a id="report-download" href="data/benchmark-report.md" download="midtown-benchmark-report.md">Full report</a><a id="runs-download" href="data/runs.json" download="midtown-benchmark-runs.json">Run data</a></div></div>
     <p id="result-callout" class="result-callout"></p>
+    <p id="selector-comparison" class="table-note" hidden></p>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Benchmark results table">
       <table>
         <caption><strong>Table 1.</strong> Mean results over five paired traffic realizations.</caption>
@@ -62,7 +65,8 @@
 
   <section id="details" class="details" hidden aria-label="Methods and assumptions">
     <div><h2>2. Data &amp; scope</h2><p>Weekday morning turning volumes cover all 12 intersections, from the Midtown South study’s June 2024 collection campaign. Internal traffic flows balance. Roads are schematic; lanes, speeds and signal plans are assumed.</p><p><strong class="caution">Field validation remains outstanding.</strong> Pedestrians, bicycles, bus stops and curbside obstruction are not modeled. No comparison against independently observed NYC travel times or queues has been completed.</p><p><a href="https://zap.planning.nyc.gov/projects/2024M0142" target="_blank" rel="noreferrer">NYC source study</a></p></div>
-    <div><h2>3. Experimental method</h2><p>Five controllers share the same traffic inputs. The fixed plan was selected from 16 candidates on separate development seeds. Each run contains three minutes of warm-up, ten minutes of demand and three minutes of drain.</p><p><strong>Native Jev</strong> chooses hold or switch. Code enforces green durations of 22–60 seconds, three seconds of yellow and one second of all-red. Requests have a two-second deadline; late decisions are discarded and a queue-pressure rule provides fallback.</p><p><strong>Bounded Jev</strong> selects a green split once per cycle: 47/35, 52/30 or 57/25 seconds for avenue/cross street. The 90-second cycle, coordination offsets and clearance times stay fixed. Changes expire each cycle; late or failed requests retain the baseline split. The original Jev controller and its recorded runs are preserved.</p><p>Confidence intervals describe variation across five paired seeds. They do not include all uncertainty in traffic behavior or establish effectiveness on actual streets.</p></div>
+    <div id="original-method"><h2>3. Experimental method</h2><p>Five controllers share the same traffic inputs. The fixed plan was selected from 16 candidates on separate development seeds. Each run contains three minutes of warm-up, ten minutes of demand and three minutes of drain.</p><p><strong>Native Jev</strong> chooses hold or switch. Code enforces green durations of 22–60 seconds, three seconds of yellow and one second of all-red. Requests have a two-second deadline; late decisions are discarded and a queue-pressure rule provides fallback.</p><p><strong>Bounded Jev</strong> selects a green split once per cycle: 47/35, 52/30 or 57/25 seconds for avenue/cross street. The 90-second cycle, coordination offsets and clearance times stay fixed. Changes expire each cycle; late or failed requests retain the baseline split. The original Jev controller and its recorded runs are preserved.</p><p>Confidence intervals describe variation across five paired seeds. They do not include all uncertainty in traffic behavior or establish effectiveness on actual streets.</p></div>
+    <div id="coordinated-method" hidden><h2>3. Experimental method</h2><p>Four controllers share fresh traffic seeds 31–35. The original fixed plan remains the reference. A retuned fixed plan was selected from seven profiles on separate development seeds. The numerical selector and Jev choose from the same five-plan library.</p><p>Every 90 seconds, both selectors receive current traffic, two minutes of arrival history and a 180-second queue forecast for each plan. Jev evaluates the candidates without an automatic preference for the current plan. Neither selector sees future departures or the scheduled demand changes.</p><p>Each chosen split installs at the next eligible local cycle start. The 90-second cycle and original coordination offsets stay fixed; green durations can vary from 22 to 60 seconds. Yellow and all-red remain three and one seconds. Actual forecast preparation, API latency and installation waits are included.</p><p>Each run contains three minutes of warm-up, ten minutes of demand and three minutes of drain. The directional-demand case is synthetic. Five paired seeds provide a pilot comparison; confidence intervals omit uncertainty in the physical model. The retuned fixed and numerical arms help distinguish plan design from Jev’s contribution.</p></div>
   </section>
   <footer><span>SUMO 1.27.1 &middot; Jev 1.13.0</span><span>Vehicle-only simulation</span></footer>
 </main>

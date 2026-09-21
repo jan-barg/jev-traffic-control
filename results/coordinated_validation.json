@@ -1,0 +1,70 @@
+{
+  "valid_runs": 60,
+  "previous_50_results_unchanged": true,
+  "frozen_sources_match": true,
+  "fresh_seeds": [
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "paired_inputs": true,
+  "fixed_regression_exact": true,
+  "phase_durations_checked": 45780,
+  "cycles_checked": 7080,
+  "plan_installations_checked": 7800,
+  "timing_violations": 0,
+  "no_early_response_or_installation": true,
+  "model_actions": 150,
+  "choices": {
+    "flow": 43,
+    "g60": 15,
+    "cross_flow": 27,
+    "g52": 32,
+    "g30": 33
+  },
+  "choices_by_scenario": {
+    "shift": {
+      "flow": 6,
+      "g60": 10,
+      "cross_flow": 5,
+      "g52": 9,
+      "g30": 20
+    },
+    "am": {
+      "g60": 3,
+      "cross_flow": 12,
+      "flow": 15,
+      "g30": 7,
+      "g52": 13
+    },
+    "surge": {
+      "cross_flow": 10,
+      "flow": 22,
+      "g52": 10,
+      "g30": 6,
+      "g60": 2
+    }
+  },
+  "error_types": {},
+  "agrees_with_numerical_selector": 145,
+  "requests": 150,
+  "latency_s": {
+    "p50": 0.4115131039870903,
+    "p95": 0.5524873458038195,
+    "p99": 0.6225762691756244,
+    "max": 0.7523189169878606
+  },
+  "installation_age_s": {
+    "p50": 52.29999999999998,
+    "p95": 74.60000000000002,
+    "max": 74.60000000000002
+  },
+  "api_errors": 0,
+  "deadline_misses": 0,
+  "fallback_actions": 0,
+  "max_clock_lag_s": 0.020746708003571257,
+  "excluded_clock_invalid_attempts": 15,
+  "field_validated": false
+}

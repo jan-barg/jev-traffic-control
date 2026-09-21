@@ -1,0 +1,3332 @@
+{
+  "title": "Coordinated plan selection",
+  "study": "coordinated",
+  "expected_runs": 60,
+  "completed_runs": 60,
+  "valid_runs": 60,
+  "status": "complete",
+  "names": {
+    "fixed": "Tuned fixed-time",
+    "library-fixed": "Retuned fixed plan",
+    "plan-numeric": "Numerical plan selector",
+    "plan-jev": "Coordinated Jev"
+  },
+  "scenario_names": {
+    "am": "Weekday morning",
+    "surge": "Morning + 50% surge",
+    "shift": "Changing directional demand"
+  },
+  "replay_seed": 31,
+  "scenario_notes": {
+    "am": "",
+    "surge": "Demand increases by 50% during minutes 5:30\u201310:30.",
+    "shift": "Synthetic demand shifts toward cross streets at 6:20, then toward avenues at 9:40."
+  },
+  "groups": {
+    "am": {
+      "fixed": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 39.3265448461258,
+          "mean_completed_travel_s": 104.35692593685019,
+          "p95_completed_travel_s": 176.5624,
+          "mean_queue_vehicles": 28.948400000000003,
+          "peak_queue_vehicles": 57.8,
+          "completed_by_demand_end": 565.6,
+          "completed_trips": 701.8,
+          "unfinished_trips": 3.8,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.1125697935573555,
+          "congested_link_seconds": 0.2
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "library-fixed": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 39.399115667386674,
+          "mean_completed_travel_s": 104.40857171024702,
+          "p95_completed_travel_s": 175.6023,
+          "mean_queue_vehicles": 28.678933333333333,
+          "peak_queue_vehicles": 63.2,
+          "completed_by_demand_end": 564.8,
+          "completed_trips": 701.6,
+          "unfinished_trips": 4.0,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.075664945610662,
+          "congested_link_seconds": 0.5199999999999999
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "plan-numeric": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 40.34051974572789,
+          "mean_completed_travel_s": 105.3024348417543,
+          "p95_completed_travel_s": 176.9193,
+          "mean_queue_vehicles": 29.563599999999997,
+          "peak_queue_vehicles": 65.2,
+          "completed_by_demand_end": 564.2,
+          "completed_trips": 701.4,
+          "unfinished_trips": 4.2,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.086857410017353,
+          "congested_link_seconds": 0.5199999999999999
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "plan-jev": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 40.286426418288215,
+          "mean_completed_travel_s": 105.24831957125882,
+          "p95_completed_travel_s": 176.9193,
+          "mean_queue_vehicles": 29.520266666666668,
+          "peak_queue_vehicles": 64.4,
+          "completed_by_demand_end": 564.2,
+          "completed_trips": 701.4,
+          "unfinished_trips": 4.2,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.0862940297356627,
+          "congested_link_seconds": 0.5199999999999999
+        },
+        "execution": {
+          "requests": 50,
+          "latency_p50_s": 0.41549320849298965,
+          "latency_p95_s": 0.550502864246664
+        }
+      }
+    },
+    "surge": {
+      "fixed": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 44.53264023649583,
+          "mean_completed_travel_s": 109.27061253250217,
+          "p95_completed_travel_s": 187.69249999999997,
+          "mean_queue_vehicles": 38.791,
+          "peak_queue_vehicles": 76.4,
+          "completed_by_demand_end": 715.2,
+          "completed_trips": 848.6,
+          "unfinished_trips": 4.6,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.1757907128685292,
+          "congested_link_seconds": 35.24000000000022
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "library-fixed": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 42.517353644439474,
+          "mean_completed_travel_s": 107.25083132982516,
+          "p95_completed_travel_s": 178.38829999999996,
+          "mean_queue_vehicles": 36.16940000000001,
+          "peak_queue_vehicles": 87.2,
+          "completed_by_demand_end": 719.4,
+          "completed_trips": 848.6,
+          "unfinished_trips": 4.6,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.1182350594558186,
+          "congested_link_seconds": 1.8400000000000003
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "plan-numeric": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 43.632434617611764,
+          "mean_completed_travel_s": 108.37315804753541,
+          "p95_completed_travel_s": 181.50909999999993,
+          "mean_queue_vehicles": 37.43373333333333,
+          "peak_queue_vehicles": 86.6,
+          "completed_by_demand_end": 719.2,
+          "completed_trips": 848.6,
+          "unfinished_trips": 4.6,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.1382459664401718,
+          "congested_link_seconds": 14.31999999999997
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "plan-jev": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 43.366112944503634,
+          "mean_completed_travel_s": 108.10631833099622,
+          "p95_completed_travel_s": 179.93909999999997,
+          "mean_queue_vehicles": 37.087266666666665,
+          "peak_queue_vehicles": 86.0,
+          "completed_by_demand_end": 719.4,
+          "completed_trips": 848.6,
+          "unfinished_trips": 4.6,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.136947155935212,
+          "congested_link_seconds": 10.83999999999998
+        },
+        "execution": {
+          "requests": 50,
+          "latency_p50_s": 0.4096717085049022,
+          "latency_p95_s": 0.4955871108890278
+        }
+      }
+    },
+    "shift": {
+      "fixed": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 52.340403320287145,
+          "mean_completed_travel_s": 116.91939386712764,
+          "p95_completed_travel_s": 211.18179999999992,
+          "mean_queue_vehicles": 41.33,
+          "peak_queue_vehicles": 94.4,
+          "completed_by_demand_end": 615.6,
+          "completed_trips": 774.4,
+          "unfinished_trips": 5.2,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.3013312462419153,
+          "congested_link_seconds": 188.99999999999707
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "library-fixed": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 45.44158758908994,
+          "mean_completed_travel_s": 110.25904532456684,
+          "p95_completed_travel_s": 184.8132,
+          "mean_queue_vehicles": 36.00873333333333,
+          "peak_queue_vehicles": 73.0,
+          "completed_by_demand_end": 629.0,
+          "completed_trips": 775.8,
+          "unfinished_trips": 3.8,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.1921062579335597,
+          "congested_link_seconds": 39.799999999999784
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "plan-numeric": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 46.842783429529234,
+          "mean_completed_travel_s": 111.53621683563794,
+          "p95_completed_travel_s": 190.88119999999995,
+          "mean_queue_vehicles": 36.917,
+          "peak_queue_vehicles": 75.8,
+          "completed_by_demand_end": 623.2,
+          "completed_trips": 774.8,
+          "unfinished_trips": 4.8,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.208063108564903,
+          "congested_link_seconds": 25.960000000000043
+        },
+        "execution": {
+          "requests": 0,
+          "latency_p50_s": null,
+          "latency_p95_s": null
+        }
+      },
+      "plan-jev": {
+        "n": 5,
+        "metrics": {
+          "mean_delay_s": 46.842783429529234,
+          "mean_completed_travel_s": 111.53621683563794,
+          "p95_completed_travel_s": 190.88119999999995,
+          "mean_queue_vehicles": 36.917,
+          "peak_queue_vehicles": 75.8,
+          "completed_by_demand_end": 623.2,
+          "completed_trips": 774.8,
+          "unfinished_trips": 4.8,
+          "uninserted_trips": 0.0,
+          "mean_stops": 1.208063108564903,
+          "congested_link_seconds": 25.960000000000043
+        },
+        "execution": {
+          "requests": 50,
+          "latency_p50_s": 0.4152652710035909,
+          "latency_p95_s": 0.5642337188968666
+        }
+      }
+    }
+  },
+  "paired": {
+    "am": {
+      "library-fixed": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": 0.07257082126087226,
+            "ci95": [
+              -0.7731631251200354,
+              0.9183047676417798
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": 0.051645773396828076,
+            "ci95": [
+              -0.7331535679035842,
+              0.8364451146972404
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -0.9600999999999942,
+            "ci95": [
+              -4.541322890037419,
+              2.62112289003743
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -0.2694666666666663,
+            "ci95": [
+              -0.8716546182869733,
+              0.33272128495364073
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": 5.4,
+            "ci95": [
+              0.3869978459713064,
+              10.413002154028694
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": -0.8,
+            "ci95": [
+              -3.491863402337901,
+              1.8918634023379008
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": -0.2,
+            "ci95": [
+              -1.2388506336835676,
+              0.8388506336835677
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": 0.2,
+            "ci95": [
+              -0.8388506336835677,
+              1.2388506336835676
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.03690484794669344,
+            "ci95": [
+              -0.05618364559478546,
+              -0.017626050298601426
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": 0.31999999999999995,
+            "ci95": [
+              -0.22406990452660447,
+              0.8640699045266044
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      },
+      "plan-numeric": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": 1.0139748996020927,
+            "ci95": [
+              -0.38350057058701115,
+              2.4114503697911966
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": 0.9455089049041192,
+            "ci95": [
+              -0.5153357607892552,
+              2.406353570597494
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": 0.35690000000000166,
+            "ci95": [
+              -3.3890945986922474,
+              4.1028945986922505
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": 0.6151999999999986,
+            "ci95": [
+              -0.7047929663810115,
+              1.9351929663810088
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": 7.4,
+            "ci95": [
+              -1.3182144721647617,
+              16.118214472164762
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": -1.4,
+            "ci95": [
+              -3.9747692679290765,
+              1.1747692679290767
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": -0.4,
+            "ci95": [
+              -1.0800873806582558,
+              0.28008738065825567
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": 0.4,
+            "ci95": [
+              -0.28008738065825567,
+              1.0800873806582558
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.02571238354000278,
+            "ci95": [
+              -0.051307072095582426,
+              -0.00011769498442313828
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": 0.31999999999999995,
+            "ci95": [
+              -0.22406990452660447,
+              0.8640699045266044
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      },
+      "plan-jev": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": 0.9598815721624178,
+            "ci95": [
+              -0.4426919628559479,
+              2.3624551071807836
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": 0.8913936344086466,
+            "ci95": [
+              -0.5691309148424506,
+              2.351918183659744
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": 0.35690000000000166,
+            "ci95": [
+              -3.3890945986922474,
+              4.1028945986922505
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": 0.5718666666666656,
+            "ci95": [
+              -0.7276399417470594,
+              1.8713732750803906
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": 6.6,
+            "ci95": [
+              -1.9395435834588017,
+              15.139543583458801
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": -1.4,
+            "ci95": [
+              -3.9747692679290765,
+              1.1747692679290767
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": -0.4,
+            "ci95": [
+              -1.0800873806582558,
+              0.28008738065825567
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": 0.4,
+            "ci95": [
+              -0.28008738065825567,
+              1.0800873806582558
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.026275763821692923,
+            "ci95": [
+              -0.05208133719355572,
+              -0.00047019044983012334
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": 0.31999999999999995,
+            "ci95": [
+              -0.22406990452660447,
+              0.8640699045266044
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      }
+    },
+    "surge": {
+      "library-fixed": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": -2.0152865920563556,
+            "ci95": [
+              -3.3283661513829887,
+              -0.7022070327297227
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": -2.0197812026770094,
+            "ci95": [
+              -3.2727859847797536,
+              -0.7667764205742653
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -9.304199999999998,
+            "ci95": [
+              -16.946713430372306,
+              -1.6616865696276903
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -2.6215999999999964,
+            "ci95": [
+              -4.1761660640652,
+              -1.0670339359347927
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": 10.8,
+            "ci95": [
+              1.6167215658777927,
+              19.98327843412221
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": 4.2,
+            "ci95": [
+              -0.874138586013439,
+              9.27413858601344
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              -1.5207216137916353,
+              1.5207216137916353
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              -1.5207216137916353,
+              1.5207216137916353
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.05755565341271076,
+            "ci95": [
+              -0.08638812599958122,
+              -0.0287231808258403
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": -33.40000000000022,
+            "ci95": [
+              -82.55985965645316,
+              15.759859656452718
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      },
+      "plan-numeric": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": -0.9002056188840655,
+            "ci95": [
+              -3.4914334915598775,
+              1.6910222537917465
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": -0.8974544849667467,
+            "ci95": [
+              -3.4231388029096284,
+              1.6282298329761347
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -6.183400000000011,
+            "ci95": [
+              -13.072609601321592,
+              0.7058096013215698
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -1.3572666666666648,
+            "ci95": [
+              -3.86288813380226,
+              1.1483548004689303
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": 10.2,
+            "ci95": [
+              1.1010509774931325,
+              19.298949022506868
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": 4.0,
+            "ci95": [
+              -2.0191895537714126,
+              10.019189553771412
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              -1.5207216137916353,
+              1.5207216137916353
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              -1.5207216137916353,
+              1.5207216137916353
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.0375447464283575,
+            "ci95": [
+              -0.08196216173780901,
+              0.006872668881094009
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": -20.920000000000254,
+            "ci95": [
+              -56.64049582624189,
+              14.800495826241377
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      },
+      "plan-jev": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": -1.1665272919921932,
+            "ci95": [
+              -3.283919617197581,
+              0.9508650332131949
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": -1.1642942015059616,
+            "ci95": [
+              -3.2287503779803193,
+              0.900161974968396
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -7.753399999999999,
+            "ci95": [
+              -14.164713108710414,
+              -1.3420868912895845
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -1.7037333333333322,
+            "ci95": [
+              -3.6049180801328733,
+              0.19745141346620865
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": 9.6,
+            "ci95": [
+              1.816044145917223,
+              17.383955854082778
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": 4.2,
+            "ci95": [
+              -1.7158481468579465,
+              10.115848146857946
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              -1.5207216137916353,
+              1.5207216137916353
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              -1.5207216137916353,
+              1.5207216137916353
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.03884355693331702,
+            "ci95": [
+              -0.07945714989633093,
+              0.0017700360296968934
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": -24.400000000000244,
+            "ci95": [
+              -66.12027988086709,
+              17.320279880866597
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      }
+    },
+    "shift": {
+      "library-fixed": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": -6.898815731197193,
+            "ci95": [
+              -10.569955046159775,
+              -3.227676416234612
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": -6.660348542560783,
+            "ci95": [
+              -9.88494015135004,
+              -3.4357569337715246
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -26.368599999999965,
+            "ci95": [
+              -38.90846353772602,
+              -13.828736462273913
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -5.321266666666668,
+            "ci95": [
+              -6.4813182539045,
+              -4.161215079428836
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": -21.4,
+            "ci95": [
+              -29.848791341331435,
+              -12.951208658668563
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": 13.4,
+            "ci95": [
+              -5.381578901647481,
+              32.181578901647484
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": 1.4,
+            "ci95": [
+              -1.1747692679290767,
+              3.9747692679290765
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": -1.4,
+            "ci95": [
+              -3.9747692679290765,
+              1.1747692679290767
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.10922498830835563,
+            "ci95": [
+              -0.12459881821693221,
+              -0.09385115839977905
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": -149.1999999999973,
+            "ci95": [
+              -247.36419982552002,
+              -51.03580017447457
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      },
+      "plan-numeric": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": -5.497619890757906,
+            "ci95": [
+              -12.658482309094513,
+              1.6632425275787002
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": -5.383177031489692,
+            "ci95": [
+              -12.131540017845236,
+              1.3651859548658516
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -20.300600000000003,
+            "ci95": [
+              -44.17214619497125,
+              3.5709461949712384
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -4.413000000000001,
+            "ci95": [
+              -9.072238906134077,
+              0.2462389061340744
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": -18.6,
+            "ci95": [
+              -34.755952516484626,
+              -2.444047483515373
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": 7.6,
+            "ci95": [
+              -15.136356263288436,
+              30.336356263288437
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": 0.4,
+            "ci95": [
+              -2.716551901050703,
+              3.5165519010507027
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": -0.4,
+            "ci95": [
+              -3.5165519010507027,
+              2.716551901050703
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.09326813767701232,
+            "ci95": [
+              -0.1640635236247177,
+              -0.022472751729306933
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": -163.039999999997,
+            "ci95": [
+              -351.3258402546444,
+              25.245840254650375
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      },
+      "plan-jev": {
+        "vs": "fixed",
+        "metrics": {
+          "mean_delay_s": {
+            "mean_difference": -5.497619890757906,
+            "ci95": [
+              -12.658482309094513,
+              1.6632425275787002
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_completed_travel_s": {
+            "mean_difference": -5.383177031489692,
+            "ci95": [
+              -12.131540017845236,
+              1.3651859548658516
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "p95_completed_travel_s": {
+            "mean_difference": -20.300600000000003,
+            "ci95": [
+              -44.17214619497125,
+              3.5709461949712384
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_queue_vehicles": {
+            "mean_difference": -4.413000000000001,
+            "ci95": [
+              -9.072238906134077,
+              0.2462389061340744
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "peak_queue_vehicles": {
+            "mean_difference": -18.6,
+            "ci95": [
+              -34.755952516484626,
+              -2.444047483515373
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_by_demand_end": {
+            "mean_difference": 7.6,
+            "ci95": [
+              -15.136356263288436,
+              30.336356263288437
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "completed_trips": {
+            "mean_difference": 0.4,
+            "ci95": [
+              -2.716551901050703,
+              3.5165519010507027
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "unfinished_trips": {
+            "mean_difference": -0.4,
+            "ci95": [
+              -3.5165519010507027,
+              2.716551901050703
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "uninserted_trips": {
+            "mean_difference": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "mean_stops": {
+            "mean_difference": -0.09326813767701232,
+            "ci95": [
+              -0.1640635236247177,
+              -0.022472751729306933
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          "congested_link_seconds": {
+            "mean_difference": -163.039999999997,
+            "ci95": [
+              -351.3258402546444,
+              25.245840254650375
+            ],
+            "n": 5,
+            "seeds": [
+              31,
+              32,
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      }
+    }
+  },
+  "jev_comparisons": {
+    "am": {
+      "fixed": {
+        "mean_difference": 0.9598815721624178,
+        "ci95": [
+          -0.4426919628559479,
+          2.3624551071807836
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "library-fixed": {
+        "mean_difference": 0.8873107509015454,
+        "ci95": [
+          0.04093433724720941,
+          1.7336871645558816
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "plan-numeric": {
+        "mean_difference": -0.05409332743967497,
+        "ci95": [
+          -0.2167954315651816,
+          0.10860877668583169
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      }
+    },
+    "surge": {
+      "fixed": {
+        "mean_difference": -1.1665272919921932,
+        "ci95": [
+          -3.283919617197581,
+          0.9508650332131949
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "library-fixed": {
+        "mean_difference": 0.8487593000641624,
+        "ci95": [
+          -0.4118543103071337,
+          2.1093729104354586
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "plan-numeric": {
+        "mean_difference": -0.26632167310812777,
+        "ci95": [
+          -1.0495988265314915,
+          0.5169554803152361
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      }
+    },
+    "shift": {
+      "fixed": {
+        "mean_difference": -5.497619890757906,
+        "ci95": [
+          -12.658482309094513,
+          1.6632425275787002
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "library-fixed": {
+        "mean_difference": 1.401195840439287,
+        "ci95": [
+          -2.336338628998772,
+          5.138730309877346
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      },
+      "plan-numeric": {
+        "mean_difference": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n": 5,
+        "seeds": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ]
+      }
+    }
+  },
+  "replays": {
+    "am": {
+      "fixed": "data/plan_am_fixed.json.gz",
+      "library-fixed": "data/plan_am_library-fixed.json.gz",
+      "plan-numeric": "data/plan_am_plan-numeric.json.gz",
+      "plan-jev": "data/plan_am_plan-jev.json.gz"
+    },
+    "surge": {
+      "fixed": "data/plan_surge_fixed.json.gz",
+      "library-fixed": "data/plan_surge_library-fixed.json.gz",
+      "plan-numeric": "data/plan_surge_plan-numeric.json.gz",
+      "plan-jev": "data/plan_surge_plan-jev.json.gz"
+    },
+    "shift": {
+      "fixed": "data/plan_shift_fixed.json.gz",
+      "library-fixed": "data/plan_shift_library-fixed.json.gz",
+      "plan-numeric": "data/plan_shift_plan-numeric.json.gz",
+      "plan-jev": "data/plan_shift_plan-jev.json.gz"
+    }
+  },
+  "plan_library": {
+    "development_seeds": [
+      901,
+      902
+    ],
+    "training_profiles": [
+      "am",
+      "surge",
+      "shift",
+      "dev_cross",
+      "dev_avenue",
+      "dev_local"
+    ],
+    "objective": "Mean requested-cohort delay; best static minimizes equal-weight mean across AM, surge and shifting demand.",
+    "plans": {
+      "g30": {
+        "label": "30/52 s avenue/cross",
+        "greens": {
+          "7_30": 30,
+          "7_29": 30,
+          "7_28": 30,
+          "7_27": 30,
+          "7_26": 30,
+          "7_25": 30,
+          "6_30": 30,
+          "6_29": 30,
+          "6_28": 30,
+          "6_27": 30,
+          "6_26": 30,
+          "6_25": 30
+        }
+      },
+      "g52": {
+        "label": "52/30 s avenue/cross",
+        "greens": {
+          "7_30": 52,
+          "7_29": 52,
+          "7_28": 52,
+          "7_27": 52,
+          "7_26": 52,
+          "7_25": 52,
+          "6_30": 52,
+          "6_29": 52,
+          "6_28": 52,
+          "6_27": 52,
+          "6_26": 52,
+          "6_25": 52
+        }
+      },
+      "g60": {
+        "label": "60/22 s avenue/cross",
+        "greens": {
+          "7_30": 60,
+          "7_29": 60,
+          "7_28": 60,
+          "7_27": 60,
+          "7_26": 60,
+          "7_25": 60,
+          "6_30": 60,
+          "6_29": 60,
+          "6_28": 60,
+          "6_27": 60,
+          "6_26": 60,
+          "6_25": 60
+        }
+      },
+      "flow": {
+        "label": "Local volume-weighted splits",
+        "greens": {
+          "7_30": 34,
+          "7_29": 40,
+          "7_28": 40,
+          "7_27": 54,
+          "7_26": 44,
+          "7_25": 48,
+          "6_30": 42,
+          "6_29": 54,
+          "6_28": 46,
+          "6_27": 50,
+          "6_26": 48,
+          "6_25": 56
+        }
+      },
+      "cross_flow": {
+        "label": "Local volume-weighted splits with cross-street emphasis",
+        "greens": {
+          "7_30": 26,
+          "7_29": 32,
+          "7_28": 32,
+          "7_27": 46,
+          "7_26": 36,
+          "7_25": 40,
+          "6_30": 34,
+          "6_29": 48,
+          "6_28": 38,
+          "6_27": 40,
+          "6_26": 40,
+          "6_25": 48
+        }
+      }
+    },
+    "best_static": "flow",
+    "best_by_training_profile": {
+      "am": "g52",
+      "surge": "flow",
+      "shift": "cross_flow",
+      "dev_cross": "cross_flow",
+      "dev_avenue": "g60",
+      "dev_local": "g30"
+    },
+    "profile_mean_delay_s": {
+      "am": {
+        "g30": 44.31812310302875,
+        "g38": 41.862805180252295,
+        "g46": 39.87938924462658,
+        "g52": 39.10838832682333,
+        "g60": 45.84257528121065,
+        "flow": 39.92932678064502,
+        "cross_flow": 42.02909703101321
+      },
+      "surge": {
+        "g30": 56.83789592718554,
+        "g38": 45.45527967782066,
+        "g46": 43.40281979101651,
+        "g52": 46.57768118341889,
+        "g60": 63.072173182009244,
+        "flow": 43.15328618254848,
+        "cross_flow": 45.30879786374322
+      },
+      "shift": {
+        "g30": 46.54266700118367,
+        "g38": 44.657458983068295,
+        "g46": 45.231807704184035,
+        "g52": 49.80290430240338,
+        "g60": 70.79364373938552,
+        "flow": 44.4056000977819,
+        "cross_flow": 44.31969543512943
+      },
+      "dev_cross": {
+        "g30": 52.576717938137335,
+        "g38": 59.72933612951364,
+        "g46": 82.7281549619011,
+        "g52": 113.36868004612566,
+        "g60": 178.66707709487417,
+        "flow": 61.18375689623985,
+        "cross_flow": 51.996610792050106
+      },
+      "dev_avenue": {
+        "g30": 50.17302773877737,
+        "g38": 38.64346461503434,
+        "g46": 34.85711408568284,
+        "g52": 32.44673316130991,
+        "g60": 31.890648104580126,
+        "flow": 35.38033366220165,
+        "cross_flow": 40.64583149926005
+      },
+      "dev_local": {
+        "g30": 55.254424327436276,
+        "g38": 75.25319942492541,
+        "g46": 107.0541144570189,
+        "g52": 131.65207885010528,
+        "g60": 166.85303786140958,
+        "flow": 90.23758998772242,
+        "cross_flow": 62.13075523705923
+      }
+    },
+    "runs": [
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "g30",
+        "delay_s": 44.52534782608696,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "g38",
+        "delay_s": 42.20186956521739,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "g46",
+        "delay_s": 40.15085507246377,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "g52",
+        "delay_s": 39.56169565217391,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "g60",
+        "delay_s": 48.24479710144928,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "flow",
+        "delay_s": 39.63220289855072,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 901,
+        "plan": "cross_flow",
+        "delay_s": 41.784202898550724,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "g30",
+        "delay_s": 44.11089837997054,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "g38",
+        "delay_s": 41.52374079528719,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "g46",
+        "delay_s": 39.6079234167894,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "g52",
+        "delay_s": 38.65508100147275,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "g60",
+        "delay_s": 43.44035346097202,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "flow",
+        "delay_s": 40.22645066273932,
+        "valid": true
+      },
+      {
+        "profile": "am",
+        "seed": 902,
+        "plan": "cross_flow",
+        "delay_s": 42.2739911634757,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "g30",
+        "delay_s": 52.37174022698613,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "g38",
+        "delay_s": 43.00365699873897,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "g46",
+        "delay_s": 41.336784363177806,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "g52",
+        "delay_s": 42.21967213114754,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "g60",
+        "delay_s": 58.827679697351826,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "flow",
+        "delay_s": 42.07802017654477,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 901,
+        "plan": "cross_flow",
+        "delay_s": 43.56640605296344,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "g30",
+        "delay_s": 61.304051627384965,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "g38",
+        "delay_s": 47.90690235690236,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "g46",
+        "delay_s": 45.46885521885522,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "g52",
+        "delay_s": 50.93569023569023,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "g60",
+        "delay_s": 67.31666666666666,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "flow",
+        "delay_s": 44.228552188552186,
+        "valid": true
+      },
+      {
+        "profile": "surge",
+        "seed": 902,
+        "plan": "cross_flow",
+        "delay_s": 47.05118967452301,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "g30",
+        "delay_s": 47.24849673202614,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "g38",
+        "delay_s": 44.967503267973854,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "g46",
+        "delay_s": 45.775019607843134,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "g52",
+        "delay_s": 49.6879477124183,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "g60",
+        "delay_s": 69.31898039215686,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "flow",
+        "delay_s": 45.12181699346406,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 901,
+        "plan": "cross_flow",
+        "delay_s": 45.304718954248365,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "g30",
+        "delay_s": 45.836837270341206,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "g38",
+        "delay_s": 44.34741469816274,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "g46",
+        "delay_s": 44.688595800524936,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "g52",
+        "delay_s": 49.917860892388454,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "g60",
+        "delay_s": 72.26830708661417,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "flow",
+        "delay_s": 43.689383202099734,
+        "valid": true
+      },
+      {
+        "profile": "shift",
+        "seed": 902,
+        "plan": "cross_flow",
+        "delay_s": 43.33467191601049,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "g30",
+        "delay_s": 55.07027630180659,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "g38",
+        "delay_s": 65.40807651434643,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "g46",
+        "delay_s": 87.43967162592986,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "g52",
+        "delay_s": 120.0015132837407,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "g60",
+        "delay_s": 184.72706163655687,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "flow",
+        "delay_s": 64.65703506907545,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 901,
+        "plan": "cross_flow",
+        "delay_s": 52.821710945802344,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "g30",
+        "delay_s": 50.083159574468084,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "g38",
+        "delay_s": 54.05059574468085,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "g46",
+        "delay_s": 78.01663829787233,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "g52",
+        "delay_s": 106.73584680851063,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "g60",
+        "delay_s": 172.60709255319148,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "flow",
+        "delay_s": 57.71047872340425,
+        "valid": true
+      },
+      {
+        "profile": "dev_cross",
+        "seed": 902,
+        "plan": "cross_flow",
+        "delay_s": 51.171510638297875,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "g30",
+        "delay_s": 46.48256232686981,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "g38",
+        "delay_s": 38.354792243767314,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "g46",
+        "delay_s": 34.81457063711911,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "g52",
+        "delay_s": 32.17630193905817,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "g60",
+        "delay_s": 31.75952908587258,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "flow",
+        "delay_s": 35.75839335180056,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 901,
+        "plan": "cross_flow",
+        "delay_s": 41.16549861495845,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "g30",
+        "delay_s": 53.86349315068493,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "g38",
+        "delay_s": 38.932136986301366,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "g46",
+        "delay_s": 34.89965753424657,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "g52",
+        "delay_s": 32.717164383561645,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "g60",
+        "delay_s": 32.021767123287674,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "flow",
+        "delay_s": 35.00227397260274,
+        "valid": true
+      },
+      {
+        "profile": "dev_avenue",
+        "seed": 902,
+        "plan": "cross_flow",
+        "delay_s": 40.126164383561644,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "g30",
+        "delay_s": 55.76873224043716,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "g38",
+        "delay_s": 79.14398907103825,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "g46",
+        "delay_s": 118.16122076502732,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "g52",
+        "delay_s": 143.6697595628415,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "g60",
+        "delay_s": 178.12824918032786,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "flow",
+        "delay_s": 99.28834644808744,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 901,
+        "plan": "cross_flow",
+        "delay_s": 66.14736612021858,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "g30",
+        "delay_s": 54.74011641443539,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "g38",
+        "delay_s": 71.36240977881258,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "g46",
+        "delay_s": 95.94700814901047,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "g52",
+        "delay_s": 119.63439813736903,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "g60",
+        "delay_s": 155.57782654249127,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "flow",
+        "delay_s": 81.1868335273574,
+        "valid": true
+      },
+      {
+        "profile": "dev_local",
+        "seed": 902,
+        "plan": "cross_flow",
+        "delay_s": 58.11414435389989,
+        "valid": true
+      }
+    ]
+  },
+  "downloads": {
+    "report": "data/coordinated-report.md",
+    "runs": "data/coordinated-runs.json"
+  },
+  "methods": {
+    "seeds": [
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "replications": 5,
+    "warmup_s": 180,
+    "measurement_s": 600,
+    "drain_s": 180,
+    "development_seeds": [
+      901,
+      902
+    ],
+    "cadence_s": 90,
+    "forecast_horizon_s": 180,
+    "history_s": 120,
+    "clock": "Actual preparation and inference time included in 1x real-time Jev runs; numerical computation is measured. Plan installation waits for eligible local cycle starts."
+  },
+  "limitations": [
+    "NYC-informed, schematic and vehicle-only; not field validated.",
+    "Five fresh paired seeds per scenario; exploratory pilot without multiple-comparison adjustment.",
+    "Synthetic surge and directional changes, not observed NYC events.",
+    "Forecasts use assumed discharge rates and recent detected arrivals; no incident semantics, sensing delays or learned forecasting.",
+    "All candidate plans retain a 90 s cycle and the original offsets. This version selects green-split profiles only."
+  ],
+  "diagnostics": [
+    {
+      "id": "plan_am_fixed_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_fixed_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_fixed_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_fixed_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_fixed_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_library-fixed_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_library-fixed_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_library-fixed_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_library-fixed_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_library-fixed_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-jev_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-jev_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-jev_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-jev_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-jev_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-numeric_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-numeric_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-numeric_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-numeric_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_am_plan-numeric_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_fixed_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_fixed_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_fixed_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_fixed_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_fixed_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_library-fixed_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_library-fixed_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_library-fixed_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_library-fixed_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_library-fixed_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-jev_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-jev_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-jev_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-jev_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-jev_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-numeric_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-numeric_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-numeric_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-numeric_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_shift_plan-numeric_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_fixed_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_fixed_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_fixed_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_fixed_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_fixed_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_library-fixed_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_library-fixed_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_library-fixed_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_library-fixed_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_library-fixed_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-jev_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-jev_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-jev_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-jev_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-jev_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-numeric_31",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-numeric_32",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-numeric_33",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-numeric_34",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    },
+    {
+      "id": "plan_surge_plan-numeric_35",
+      "valid": true,
+      "collisions": 0,
+      "teleports": 0,
+      "conflicting_green_steps": 0,
+      "timing_violations": 0
+    }
+  ],
+  "coordinated_validation": {
+    "valid_runs": 60,
+    "previous_50_results_unchanged": true,
+    "frozen_sources_match": true,
+    "fresh_seeds": [
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "paired_inputs": true,
+    "fixed_regression_exact": true,
+    "phase_durations_checked": 45780,
+    "cycles_checked": 7080,
+    "plan_installations_checked": 7800,
+    "timing_violations": 0,
+    "no_early_response_or_installation": true,
+    "model_actions": 150,
+    "choices": {
+      "flow": 43,
+      "g60": 15,
+      "cross_flow": 27,
+      "g52": 32,
+      "g30": 33
+    },
+    "choices_by_scenario": {
+      "shift": {
+        "flow": 6,
+        "g60": 10,
+        "cross_flow": 5,
+        "g52": 9,
+        "g30": 20
+      },
+      "am": {
+        "g60": 3,
+        "cross_flow": 12,
+        "flow": 15,
+        "g30": 7,
+        "g52": 13
+      },
+      "surge": {
+        "cross_flow": 10,
+        "flow": 22,
+        "g52": 10,
+        "g30": 6,
+        "g60": 2
+      }
+    },
+    "error_types": {},
+    "agrees_with_numerical_selector": 145,
+    "requests": 150,
+    "latency_s": {
+      "p50": 0.4115131039870903,
+      "p95": 0.5524873458038195,
+      "p99": 0.6225762691756244,
+      "max": 0.7523189169878606
+    },
+    "installation_age_s": {
+      "p50": 52.29999999999998,
+      "p95": 74.60000000000002,
+      "max": 74.60000000000002
+    },
+    "api_errors": 0,
+    "deadline_misses": 0,
+    "fallback_actions": 0,
+    "max_clock_lag_s": 0.020746708003571257,
+    "excluded_clock_invalid_attempts": 15,
+    "field_validated": false
+  },
+  "execution_retry": {
+    "excluded_attempts": 15,
+    "reason": "All 15 live attempts violated the pre-existing maximum wall-clock lag criterion (<0.2 s). macOS power log records clamshell sleep and maintenance sleep during the batch. These attempts are excluded on timing validity, not traffic performance.",
+    "evidence": "data/coordinated_execution_retry.json"
+  }
+}
