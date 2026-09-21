@@ -2,11 +2,11 @@
 
 **Experiment closed: the tested Jev controllers did not demonstrate an advantage over the strongest conventional baselines.**
 
-We compared three ways of using TypeSafe Jev to control traffic lights against fixed-time schedules and simple numerical controllers. The test used a SUMO simulation of twelve schematic intersections on Sixth and Seventh Avenues, West 25th–30th Streets, informed by published NYC turning volumes. Real API latency was included while traffic continued moving.
+I compared three ways of using TypeSafe Jev to control traffic lights against fixed-time schedules and simple numerical controllers. The test used a SUMO simulation of twelve schematic intersections on Sixth and Seventh Avenues, West 25th–30th Streets, informed by published NYC turning volumes. Real API latency was included while traffic continued moving.
 
 [**Open the side-by-side replay**](https://jan-barg.github.io/jev-traffic-control/) · [Detailed methods and reproduction](docs/REPRODUCING.md) · [Data provenance and limits](docs/NYC_BENCHMARK_AUDIT.md)
 
-## What we found
+## What I found
 
 - **Native Jev increased delay substantially.** Choosing whether individual signals should hold or switch performed worse than the tuned fixed schedule in both tested scenarios.
 - **Bounded Jev largely reproduced fixed-time control.** It retained the baseline split in 1,254 of 1,256 applied decisions; allowing a five-second adjustment did not produce a useful improvement.
