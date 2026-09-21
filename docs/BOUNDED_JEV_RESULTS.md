@@ -75,7 +75,7 @@ Each simulation ran at one simulated second per wall second while traffic contin
 - All frozen bounded source hashes and all forty original result hashes still match. Original native-controller source is unchanged.
 - Fourteen automated tests passed, including real SUMO tests of all three allowed choices and the keep-only equivalence check.
 
-These are implementation and reproducibility checks. Zero simulated collisions does not establish street safety. The original in-sample turning-count check and conventional sensitivity results are preserved in the [original report](native-report.md); bounded Jev has not been evaluated across those physical sensitivity variants.
+These are implementation and reproducibility checks. Zero simulated collisions does not establish street safety. The original in-sample turning-count check and conventional sensitivity results are preserved in the [original report](BENCHMARK_RESULTS.md); bounded Jev has not been evaluated across those physical sensitivity variants.
 
 ## Scope
 
@@ -85,6 +85,6 @@ Lanes, block lengths, fleet mix and driver behavior are assumptions. Pedestrians
 
 ## Reproduction
 
-See the [README](https://github.com/jan-barg/jev-traffic-control), [bounded protocol](bounded_protocol.json), [bounded audit](bounded_validation.json) and [all results](summary.json). Raw request, action, phase-transition and trip logs remain locally in `results/raw/`. Seed 11 was selected for replay before evaluation.
+See the [README](../README.md), [bounded protocol](../results/bounded_protocol.json), [bounded audit](../results/bounded_validation.json) and [all results](../results/summary.json). Raw request, action, phase-transition and trip logs remain locally in `results/raw/`. Seed 11 was selected for replay before evaluation.
 
 [NYC study record](https://zap.planning.nyc.gov/projects/2024M0142) · [SUMO trip metrics](https://sumo.dlr.de/docs/Simulation/Output/TripInfo.html) · [TypeSafe documentation](https://docs.typesafe.ai/)

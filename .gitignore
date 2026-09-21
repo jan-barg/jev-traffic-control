@@ -3,6 +3,7 @@ __pycache__/
 tmp/
 .venv/
 results/raw/
+scenario/demand/
 viewer/.git/
 .env
 .env.*

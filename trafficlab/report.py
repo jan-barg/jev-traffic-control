@@ -8,11 +8,13 @@ from scipy.stats import t as student_t
 from .scenario import ROOT
 
 METRICS=['mean_delay_s','mean_completed_travel_s','p95_completed_travel_s','mean_queue_vehicles','peak_queue_vehicles','completed_by_demand_end','completed_trips','unfinished_trips','uninserted_trips','mean_stops','congested_link_seconds']
-NAMES={'fixed':'Tuned fixed-time','actuated':'Actuated','pressure':'Queue pressure','jev':'Jev'}
+NAMES={'fixed':'Tuned fixed-time','actuated':'Actuated','pressure':'Queue pressure','jev':'Jev','bounded-jev':'Bounded Jev'}
 
 
 def aggregate():
-    runs=[json.loads(p.read_text()) for p in sorted((ROOT/'results/raw').glob('bench_*/result.json'))]
+    paths=sorted((ROOT/'results/raw').glob('bench_*/result.json'))+sorted((ROOT/'results/raw').glob('bounded_*/result.json'))
+    runs=[json.loads(p.read_text()) for p in paths]
+    expected_runs=50 if (ROOT/'results/bounded_protocol.json').exists() else 40
     groups={}; paired={}; diagnostics=[]
     for scenario in ('am','surge'):
         groups[scenario]={}; paired[scenario]={}
@@ -20,7 +22,7 @@ def aggregate():
             rows=[r for r in runs if r['scenario']==scenario and r['controller']==controller and r['valid']]
             if not rows: continue
             groups[scenario][controller]={'n':len(rows),'metrics':{m:float(np.mean([r['metrics'][m] for r in rows if r['metrics'][m] is not None])) for m in METRICS},'execution':{'requests':sum(r['execution']['requests'] for r in rows),'api_errors':sum(r['execution']['api_errors'] for r in rows),'deadline_misses':sum(r['execution']['deadline_misses'] for r in rows),'fallback_actions':sum(r['execution']['fallback_actions'] for r in rows),'latency_p50_s':float(np.mean([r['execution']['latency_p50_s'] for r in rows if r['execution']['latency_p50_s'] is not None])) if any(r['execution']['latency_p50_s'] is not None for r in rows) else None,'latency_p95_s':max((r['execution']['latency_p95_s'] or 0) for r in rows),'max_clock_lag_s':max(r['execution']['max_clock_lag_s'] for r in rows),'model_actions_applied':sum(r['execution']['model_actions_applied'] for r in rows),'input_tokens':sum(r['execution']['input_tokens'] for r in rows)}}
-            if controller=='jev':
+            if controller in ('jev','bounded-jev'):
                 pooled=[q['latency_s'] for r in rows for q in json.loads((ROOT/'results/raw'/r['id']/'jev_requests.json').read_text())]
                 groups[scenario][controller]['execution'].update({f'latency_{p}_s':float(np.quantile(pooled,q)) for p,q in [('p50',.5),('p95',.95),('p99',.99)]})
                 groups[scenario][controller]['execution']['latency_aggregation']='pooled requests within scenario'
@@ -41,16 +43,21 @@ def aggregate():
                 stats[m]={'mean_difference':mean,'ci95':[mean-half,mean+half] if half is not None else None,'n':len(v)}
             paired[scenario][controller]={'seeds':used,'vs':'fixed','metrics':stats}
     for r in runs:
-        diagnostics.append({'id':r['id'],'valid':r['valid'],'collisions':r['metrics']['colliding_vehicle_events'],'teleports':r['metrics']['teleports'],'conflicting_green_steps':r['metrics']['conflicting_green_steps'],'conservation':r['metrics']['conservation']})
+        diagnostics.append({'id':r['id'],'valid':r['valid'],'collisions':r['metrics']['colliding_vehicle_events'],'teleports':r['metrics']['teleports'],'conflicting_green_steps':r['metrics']['conflicting_green_steps'],'bounded_timing_violations':r['metrics'].get('bounded_timing_violations',0),'conservation':r['metrics']['conservation']})
     sources={'nyc_counts':'https://zap.planning.nyc.gov/projects/2024M0142','sumo':'https://sumo.dlr.de/docs/','typesafe':'https://docs.typesafe.ai/models'}
-    summary={'title':'Midtown Traffic Lab','expected_runs':40,'completed_runs':len(runs),'valid_runs':sum(r['valid'] for r in runs),'status':'complete' if len(runs)==40 and all(r['valid'] for r in runs) else 'in_progress','groups':groups,'paired':paired,'diagnostics':diagnostics,'sources':sources,'names':NAMES,'scope':'12 intersections: Sixth and Seventh Avenues, West 25th–30th. June 2024 published AM turning counts. Schematic roads and assumed timings.','limitations':['NYC-informed simulation; not independently validated against real travel times or queues.','Vehicle-only model: no pedestrians, bicycles, transit stops or curbside double parking.','Geometry, lane allocation, vehicle behavior and 5% truck share are assumptions.','Five paired seeds per demand pattern: a pilot, not a definitive effectiveness study.','Completed-trip travel times exclude unfinished trips; primary delay includes all requested evaluation trips.'],'methods':{'replications':5,'seeds':list(range(11,16)),'warmup_s':180,'measurement_s':600,'drain_s':180,'primary':'Mean SUMO timeLoss + entry delay per requested evaluation trip, with unfinished/uninserted vehicles retained.','confidence':'95% paired Student-t intervals across five independent seeds; multiple secondary metrics are descriptive.','clock':'Jev runs at 1× wall time. Conventional algorithms run accelerated with measured computation time rounded up to a simulation step; their travel dynamics use the same 0.2 s step.','api_concurrency':'10 independent Jev replications run concurrently; reported network/provider latency includes that load.'}}
+    summary={'title':'Midtown Traffic Lab','expected_runs':expected_runs,'completed_runs':len(runs),'valid_runs':sum(r['valid'] for r in runs),'status':'complete' if len(runs)==expected_runs and all(r['valid'] for r in runs) else 'in_progress','groups':groups,'paired':paired,'diagnostics':diagnostics,'sources':sources,'names':NAMES,'scope':'12 intersections: Sixth and Seventh Avenues, West 25th–30th. June 2024 published AM turning counts. Schematic roads and assumed timings.','limitations':['NYC-informed simulation; not independently validated against real travel times or queues.','Vehicle-only model: no pedestrians, bicycles, transit stops or curbside double parking.','Geometry, lane allocation, vehicle behavior and 5% truck share are assumptions.','Five paired seeds per demand pattern: a pilot, not a definitive effectiveness study.','Completed-trip travel times exclude unfinished trips; primary delay includes all requested evaluation trips.'],'methods':{'replications':5,'seeds':list(range(11,16)),'warmup_s':180,'measurement_s':600,'drain_s':180,'primary':'Mean SUMO timeLoss + entry delay per requested evaluation trip, with unfinished/uninserted vehicles retained.','confidence':'95% paired Student-t intervals across five independent seeds; multiple secondary metrics are descriptive.','clock':'Jev runs at 1× wall time. Conventional algorithms run accelerated with measured computation time rounded up to a simulation step; their travel dynamics use the same 0.2 s step.','api_concurrency':'10 independent Jev replications run concurrently; reported network/provider latency includes that load.'}}
     if (ROOT/'results/fixed_plan_tuning.json').exists(): summary['fixed_plan_tuning']=json.loads((ROOT/'results/fixed_plan_tuning.json').read_text())
     if (ROOT/'results/validation.json').exists(): summary['validation']=json.loads((ROOT/'results/validation.json').read_text())
+    if (ROOT/'results/bounded_validation.json').exists(): summary['bounded_validation']=json.loads((ROOT/'results/bounded_validation.json').read_text())
+    if expected_runs==50:
+        summary['methods']['bounded']='Once per cycle choose 47/35, 52/30 or 57/25 s avenue/cross greens; preserve 90 s cycle and original offsets. Keep baseline on late/failed requests.'
+        summary['methods']['api_concurrency']='Native and bounded Jev each ran ten real-time replications concurrently in separate batches. Measured API latency includes each batch’s load and service conditions.'
+        summary['limitations'].append('Bounded Jev is an exploratory extension developed after seeing native results, evaluated on the same traffic seeds; not a new held-out confirmation study.')
     destination=ROOT/'viewer/dist/data'; destination.mkdir(parents=True,exist_ok=True)
     manifest={s:{} for s in ('am','surge')}
     for s in manifest:
         for c in NAMES:
-            path=ROOT/'results/raw'/f'bench_{s}_{c}_11/replay.json.gz'
+            path=ROOT/'results/raw'/(f'bounded_{s}_11' if c=='bounded-jev' else f'bench_{s}_{c}_11')/'replay.json.gz'
             if path.exists():
                 filename=f'{s}_{c}.json.gz'; shutil.copy2(path,destination/filename); manifest[s][c]=f'data/{filename}'
     summary['replays']=manifest
@@ -59,13 +66,17 @@ def aggregate():
     # Small downloadable per-run dataset, with no model prompts or credentials.
     public=[{k:v for k,v in r.items() if k not in ('series',)} for r in runs]
     (destination/'runs.json').write_text(json.dumps(public,separators=(',',':'))+'\n')
-    write_report(summary)
+    if summary.get('bounded_validation'):
+        from .report_bounded import write_report as write_bounded_report
+        write_bounded_report(summary,runs)
+    elif expected_runs==40:write_report(summary)
     print(json.dumps({'completed_runs':len(runs),'valid_runs':summary['valid_runs'],'replays':manifest}))
     return summary
 
 
 def write_report(s):
     if s['status']!='complete' or not s.get('validation',{}).get('technical_reproducibility'): return
+    names={k:v for k,v in NAMES.items() if k!='bounded-jev'}
     v=s['validation'];a=v['primary_audit']
     lines=['# Midtown Traffic Lab — pilot results','',
            'Run on 21 September 2026 with SUMO 1.27.1 and TypeSafe Jev 1.13.0. **The first Jev controller did not improve traffic in this model.** The tuned coordinated fixed plan had lower delay in both demand scenarios. This is a result about this implementation and these assumptions, not a general limit on Jev or AI signal control.','',
@@ -75,13 +86,13 @@ def write_report(s):
            '|---|---:|---:|---:|---:|---:|']
     for scenario,title in [('am','Published AM'),('surge','Synthetic surge')]:
         g=s['groups'][scenario];p=s['paired'][scenario]['jev']['metrics']['mean_delay_s'];lo,hi=p['ci95']
-        lines.append('| '+title+' | '+' | '.join(f"{g[c]['metrics']['mean_delay_s']:.1f} s" for c in NAMES)+f" | +{p['mean_difference']:.1f} s ({lo:.1f} to {hi:.1f}) |")
+        lines.append('| '+title+' | '+' | '.join(f"{g[c]['metrics']['mean_delay_s']:.1f} s" for c in names)+f" | +{p['mean_difference']:.1f} s ({lo:.1f} to {hi:.1f}) |")
     lines+=['','Five replications per arm is a pilot. Intervals use the paired Student-t method across seeds, not individual vehicles. They cover seed-to-seed variation within this model, not uncertainty in geometry, behavior or actual NYC operation. No secondary-metric multiple-comparison adjustment is made.','',
             '## Supporting traffic measures','',
             'Travel times include completed trips only and therefore need to be read alongside unfinished demand. Mean/peak queues cover all vehicles in the network during the ten-minute measurement window; peak is the mean of per-run maxima.','']
     for scenario,title in [('am','Published AM demand'),('surge','Synthetic surge demand')]:
         lines += [f'### {title}','','| Controller | Mean trip (s) | P95 trip (s) | Mean / peak queue | Finished by 13:00 | Finished after drain | Unfinished | Stops/trip | Congested link-s |','|---|---:|---:|---:|---:|---:|---:|---:|---:|']
-        for c,name in NAMES.items():
+        for c,name in names.items():
             m=s['groups'][scenario][c]['metrics']
             lines.append(f"| {name} | {m['mean_completed_travel_s']:.1f} | {m['p95_completed_travel_s']:.1f} | {m['mean_queue_vehicles']:.1f} / {m['peak_queue_vehicles']:.1f} | {m['completed_by_demand_end']:.1f} | {m['completed_trips']:.1f} | {m['unfinished_trips']:.1f} | {m['mean_stops']:.2f} | {m['congested_link_seconds']:.1f} |")
         lines+=['']

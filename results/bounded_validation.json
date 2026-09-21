@@ -1,0 +1,39 @@
+{
+  "valid_runs": 10,
+  "protocol_hashes_match": true,
+  "native_results_unchanged": true,
+  "paired_inputs": true,
+  "keep_matches_fixed_exactly": true,
+  "phase_durations_checked": 7540,
+  "consecutive_cycles_checked": 1180,
+  "cycle_length_s": 90,
+  "allowed_shifts_s": [
+    -5,
+    0,
+    5
+  ],
+  "timing_violations": 0,
+  "no_early_application": true,
+  "requests": 630,
+  "model_actions_applied": 1256,
+  "choices": {
+    "keep": 1254,
+    "cross_plus_5": 2
+  },
+  "fallback_actions": 4,
+  "api_errors": 1,
+  "deadline_misses": 2,
+  "latency_s": {
+    "p50": 0.47310893749818206,
+    "p95": 0.6807133604321277,
+    "p99": 0.9528613203353643,
+    "max": 4.1083362080098595
+  },
+  "application_age_s": {
+    "p50": 0.6000000000000227,
+    "p95": 0.8000000000000114,
+    "max": 1.3999999999999773
+  },
+  "max_clock_lag_s": 0.027299332985421643,
+  "field_validated": false
+}

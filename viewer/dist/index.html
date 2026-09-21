@@ -30,7 +30,7 @@
         <div class="live-metrics" id="left-metrics"></div>
       </section>
       <section class="sim-panel" id="right-panel">
-        <div class="panel-title"><label for="controller"><span class="panel-letter">(b)</span> <select id="controller" aria-label="Comparison controller"><option value="jev">Jev</option><option value="pressure">Queue pressure</option><option value="actuated">Actuated</option></select></label><span class="controller-note" id="latency"></span></div>
+        <div class="panel-title"><label for="controller"><span class="panel-letter">(b)</span> <select id="controller" aria-label="Comparison controller"><option value="bounded-jev">Bounded Jev</option><option value="jev">Jev</option><option value="pressure">Queue pressure</option><option value="actuated">Actuated</option></select></label><span class="controller-note" id="latency"></span></div>
         <div class="canvas-wrap"><canvas id="right-canvas" aria-label="Recorded traffic with the comparison controller"></canvas><span class="map-note">Select a signal to inspect its decision</span></div>
         <div class="live-metrics" id="right-metrics"></div>
       </section>
@@ -40,7 +40,7 @@
       <div class="clock"><strong id="time">03:00</strong><span id="phase">Evaluation</span></div>
       <input id="timeline" aria-label="Replay time" type="range" min="0" max="960" step="0.2" value="180">
       <select id="speed" aria-label="Playback speed"><option value="1">1×</option><option value="4">4×</option><option value="8" selected>8×</option><option value="20">20×</option></select>
-      <div class="legend"><span>Color identifies each vehicle</span><span><i class="stopped"></i>Stopped outline</span></div>
+      <div class="legend"><span>Vehicle colors match across views</span><span><i class="stopped"></i>Stopped outline</span></div>
     </div>
     <figcaption><strong>Figure 1.</strong> Synchronized vehicle trajectories for the same departures, routes and driver settings. Counters show progress in seed 11. Playback speed changes only the animation; traffic continued moving during the original Jev requests.</figcaption>
   </figure>
@@ -62,7 +62,7 @@
 
   <section id="details" class="details" hidden aria-label="Methods and assumptions">
     <div><h2>2. Data &amp; scope</h2><p>Weekday morning turning volumes cover all 12 intersections, from the Midtown South study’s June 2024 collection campaign. Internal traffic flows balance. Roads are schematic; lanes, speeds and signal plans are assumed.</p><p><strong class="caution">Field validation remains outstanding.</strong> Pedestrians, bicycles, bus stops and curbside obstruction are not modeled. No comparison against independently observed NYC travel times or queues has been completed.</p><p><a href="https://zap.planning.nyc.gov/projects/2024M0142" target="_blank" rel="noreferrer">NYC source study</a></p></div>
-    <div><h2>3. Experimental method</h2><p>Four controllers share the same traffic inputs. The fixed plan was selected from 16 candidates on separate development seeds. Each run contains three minutes of warm-up, ten minutes of demand and three minutes of drain.</p><p>Jev chooses hold or switch. Code enforces green durations of 22–60 seconds, three seconds of yellow and one second of all-red. Requests have a two-second deadline; late decisions are discarded and a queue-pressure rule provides fallback.</p><p>Confidence intervals describe variation across five paired seeds. They do not include all uncertainty in traffic behavior or establish effectiveness on actual streets.</p></div>
+    <div><h2>3. Experimental method</h2><p>Five controllers share the same traffic inputs. The fixed plan was selected from 16 candidates on separate development seeds. Each run contains three minutes of warm-up, ten minutes of demand and three minutes of drain.</p><p><strong>Native Jev</strong> chooses hold or switch. Code enforces green durations of 22–60 seconds, three seconds of yellow and one second of all-red. Requests have a two-second deadline; late decisions are discarded and a queue-pressure rule provides fallback.</p><p><strong>Bounded Jev</strong> selects a green split once per cycle: 47/35, 52/30 or 57/25 seconds for avenue/cross street. The 90-second cycle, coordination offsets and clearance times stay fixed. Changes expire each cycle; late or failed requests retain the baseline split. The original Jev controller and its recorded runs are preserved.</p><p>Confidence intervals describe variation across five paired seeds. They do not include all uncertainty in traffic behavior or establish effectiveness on actual streets.</p></div>
   </section>
   <footer><span>SUMO 1.27.1 &middot; Jev 1.13.0</span><span>Vehicle-only simulation</span></footer>
 </main>

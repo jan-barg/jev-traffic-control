@@ -1,5 +1,5 @@
 const $=id=>document.getElementById(id);
-const state={summary:null,left:null,right:null,t:180,playing:true,speed:8,selected:null,scenario:'am',controller:'jev',loading:false};
+const state={summary:null,left:null,right:null,t:180,playing:true,speed:8,selected:null,scenario:'am',controller:'bounded-jev',loading:false};
 const cache=new Map();
 const vehicleColors=['#276aaf','#c69216','#537c3f','#ab4444','#7852a0','#277e79','#343434','#ab653e'];
 const fmt=(n,d=1)=>n==null?'—':Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});
@@ -79,7 +79,8 @@ function decision(){
   el.hidden=false;const id=state.selected,items=state.right.actions||[];
   let last=null;for(let i=items.length-1;i>=0;i--){if(items[i].junction===id&&items[i].t<=state.t){last=items[i];break;}}
   const [ave,st]=id.split('_');
-  const text=last?`At ${clock(last.t)}, <span>${last.action==='hold'?'keep the current green':'start a phase transition'}</span>. ${last.accepted?'Applied':'Rejected by the signal guard'}. ${last.source==='response'?`Observation age at application: ${fmt(last.t-last.observed_t,2)} s.`:last.source==='fallback'?'Fallback rule used.':'Conventional controller decision.'}`:'No eligible controller decision yet at this replay time.';
+  const bounded=last&&['keep','avenue_plus_5','cross_plus_5'].includes(last.action);
+  const text=bounded?`At ${clock(last.t)}, <span>${last.accepted?`${last.avenue_green_s} s avenue / ${last.cross_green_s} s cross-street green`:'split change rejected'}</span> for this cycle. ${last.accepted?`Next coordinated cycle: ${clock(last.next_cycle_start_s)}.`:''} ${last.source==='fallback'?'Baseline retained after an unavailable or late response.':`Observation age at application: ${fmt(last.t-last.observed_t,2)} s.`}`:last?`At ${clock(last.t)}, <span>${last.action==='hold'?'keep the current green':'start a phase transition'}</span>. ${last.accepted?'Applied':'Rejected by the signal guard'}. ${last.source==='response'?`Observation age at application: ${fmt(last.t-last.observed_t,2)} s.`:last.source==='fallback'?'Fallback rule used.':'Conventional controller decision.'}`:'No eligible controller decision yet at this replay time.';
   el.innerHTML=`<strong>${ave}th Avenue & West ${st}th Street</strong> · ${text}`;
 }
 function table(){
@@ -92,10 +93,17 @@ function table(){
   const p=summary.paired[state.scenario]?.[state.controller]?.metrics?.mean_delay_s;
   if(p&&groups.fixed){
     const diff=p.mean_difference,percent=Math.abs(diff)/groups.fixed.metrics.mean_delay_s*100,ci=p.ci95;
-    $('result-callout').innerHTML=`${summary.names[state.controller]} produced <strong class="${diff<0?'beneficial':'adverse'}">${fmt(percent)}% ${diff<0?'less':'more'} delay</strong> than the tuned fixed plan. Paired difference: ${diff>=0?'+':''}${fmt(diff)} s per requested trip${ci?` (95% interval: ${fmt(ci[0])} to ${fmt(ci[1])} s)`:''}; ${p.n} paired seeds. This comparison applies to the modeled conditions.`;
+    const equal=Math.abs(diff)<1e-9;
+    const outcome=equal?'matched the tuned fixed plan’s mean delay':`produced <strong class="${ci&&ci[0]<=0&&ci[1]>=0?'caution':diff<0?'beneficial':'adverse'}">${fmt(percent)}% ${diff<0?'less':'more'} delay</strong> than the tuned fixed plan`;
+    const precision=state.controller==='bounded-jev'?2:1;
+    const bounded=state.controller==='bounded-jev'&&summary.bounded_validation;
+    const replayKept=state.right?.actions?.every(a=>!a.accepted||a.action==='keep');
+    const policyNote=bounded?` Jev retained the baseline in ${fmt(bounded.choices.keep||0,0)} of ${fmt(bounded.model_actions_applied,0)} applied choices across both scenarios.${replayKept?' The seed-11 replay retained the baseline throughout.':''}`:'';
+    $('result-callout').innerHTML=`${summary.names[state.controller]} ${outcome}. Paired difference: ${diff>0?'+':''}${fmt(diff,precision)} s per requested trip${ci?` (95% interval: ${fmt(ci[0],precision)} to ${fmt(ci[1],precision)} s)`:''}; ${p.n} paired seeds. ${equal?'These seeds produced identical delay; other conditions may differ. ':ci&&ci[0]<=0&&ci[1]>=0?'The interval includes no difference. ':''}This comparison applies to the modeled conditions.${policyNote}`;
   }else $('result-callout').textContent='The benchmark is running. This viewer shows actual recorded trajectories; aggregate Jev results will appear after the real-time runs finish.';
-  const v=summary.validation,a=v?.primary_audit;
-  $('verification-note').innerHTML=a?`A conventional rerun reproduced exactly; 42 sensitivity runs completed. Turning-flow error against the input counts was ${fmt(v.input_flow_check.weighted_absolute_relative_error*100,2)}% (in-sample). Across ${fmt(a.jev_requests,0)} real API batches, latency was ${fmt(a.latency_s.p50*1000,0)} ms at the median and ${fmt(a.latency_s.p95*1000,0)} ms at P95. No model action preceded its response. <strong class="caution">Field validation remains outstanding.</strong>`:'';
+  const v=summary.validation,a=v?.primary_audit,b=summary.bounded_validation;
+  const boundedNote=b?` Bounded Jev: ${fmt(b.requests,0)} API batches, median ${fmt(b.latency_s.p50*1000,0)} ms, P95 ${fmt(b.latency_s.p95*1000,0)} ms; ${b.timing_violations} timing violations.`:'';
+  $('verification-note').innerHTML=a?`A conventional rerun reproduced exactly; 42 sensitivity runs completed. Turning-flow error against the input counts was ${fmt(v.input_flow_check.weighted_absolute_relative_error*100,2)}% (in-sample). For native Jev, across ${fmt(a.jev_requests,0)} real API batches, latency was ${fmt(a.latency_s.p50*1000,0)} ms at the median and ${fmt(a.latency_s.p95*1000,0)} ms at P95. No model action preceded its response.${boundedNote} <strong class="caution">Field validation remains outstanding.</strong>`:'';
   const d=summary.diagnostics;
   const checks=[{text:`${summary.valid_runs}/${summary.completed_runs} valid runs`,pass:summary.valid_runs===summary.completed_runs},...['collisions','teleports','conflicting_green_steps'].map((k,i)=>{const n=d.reduce((a,r)=>a+r[k],0);return{text:`${n} ${['simulated collisions','teleports','conflicting greens'][i]}`,pass:n===0}})];
   $('validation').innerHTML=checks.map(x=>`<span class="check"><span class="${x.pass?'pass':'fail'}">${x.pass?'✓':'×'}</span>${x.text}</span>`).join('');
@@ -116,8 +124,8 @@ async function loadComparison(){
     if(state.left.result.demand_sha256!==state.right.result.demand_sha256)throw new Error('The replay schedules do not match.');
     $('timeline').max=state.left.result.horizon_s;state.t=Math.min(state.t,state.left.result.horizon_s-.3);
     const e=state.right.result.execution;
-    $('latency').textContent=state.controller==='jev'?`API p95 ${fmt(e.latency_p95_s*1000,0)} ms`:'Observed road state';
-    $('status').textContent=state.summary.status!=='complete'?`${state.summary.completed_runs}/40 runs available`:state.scenario==='surge'?'Demand increases by 50% during minutes 5:30–10:30.':'';
+    $('latency').textContent=['jev','bounded-jev'].includes(state.controller)?`API p95 ${fmt(e.latency_p95_s*1000,0)} ms`:'Observed road state';
+    $('status').textContent=state.summary.status!=='complete'?`${state.summary.completed_runs}/${state.summary.expected_runs} runs available`:state.scenario==='surge'?'Demand increases by 50% during minutes 5:30–10:30.':'';
     table();decision();
   }catch(error){if(request===comparisonRequest)$('status').textContent=error.message;}finally{if(request===comparisonRequest)state.loading=false;}
 }
@@ -153,9 +161,9 @@ if(document.modelContext?.registerTool){
     name:'inspect_traffic_benchmark',title:'Inspect traffic benchmark',description:'Read the displayed benchmark results and current replay selection. Does not run simulations or call Jev.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:false},
     execute:input=>{if(!input||Object.keys(input).length)throw new Error('No arguments expected.');return{view:window.trafficLab.getState(),results:state.summary?.groups[state.scenario],paired:state.summary?.paired[state.scenario]};}
   },{
-    name:'configure_traffic_replay',title:'Configure traffic replay',description:'Choose a recorded traffic scenario and controller, then pause both synchronized views at the requested elapsed time. No new inference is performed.',inputSchema:{type:'object',properties:{scenario:{type:'string',enum:['am','surge']},controller:{type:'string',enum:['jev','pressure','actuated']},time_seconds:{type:'number',minimum:0,maximum:959}},required:['scenario','controller','time_seconds'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},
+    name:'configure_traffic_replay',title:'Configure traffic replay',description:'Choose a recorded traffic scenario and controller, then pause both synchronized views at the requested elapsed time. No new inference is performed.',inputSchema:{type:'object',properties:{scenario:{type:'string',enum:['am','surge']},controller:{type:'string',enum:['bounded-jev','jev','pressure','actuated']},time_seconds:{type:'number',minimum:0,maximum:959}},required:['scenario','controller','time_seconds'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},
     async execute(input){
-      if(!input||!['am','surge'].includes(input.scenario)||!['jev','pressure','actuated'].includes(input.controller)||typeof input.time_seconds!=='number'||!Number.isFinite(input.time_seconds)||input.time_seconds<0||input.time_seconds>959||Object.keys(input).some(k=>!['scenario','controller','time_seconds'].includes(k)))throw new Error('Invalid replay configuration.');
+      if(!input||!['am','surge'].includes(input.scenario)||!['bounded-jev','jev','pressure','actuated'].includes(input.controller)||typeof input.time_seconds!=='number'||!Number.isFinite(input.time_seconds)||input.time_seconds<0||input.time_seconds>959||Object.keys(input).some(k=>!['scenario','controller','time_seconds'].includes(k)))throw new Error('Invalid replay configuration.');
       if(!state.summary?.replays[input.scenario]?.[input.controller])throw new Error('That recorded controller is not available yet.');
       state.scenario=input.scenario;state.controller=input.controller;$('scenario').value=state.scenario;state.selected=null;
       await loadComparison();window.trafficLab.seek(input.time_seconds);$('play').setAttribute('aria-label','Play replay');
