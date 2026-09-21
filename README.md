@@ -1,149 +1,105 @@
 # Midtown Traffic Lab
 
-A working **SUMO microscopic simulation** of a schematic Midtown South street grid: Sixth and Seventh Avenues at West 25th–30th Streets. Compare a tuned fixed-time signal plan, a simple actuated controller, a queue-pressure rule, native **TypeSafe Jev** decisions and a separate **bounded Jev** controller.
+**Experiment closed: the tested Jev controllers did not demonstrate an advantage over the strongest conventional baselines.**
 
-The new **coordinated plan selection** experiment adds a corridor-wide Jev controller, a matched numerical selector and a retuned fixed baseline. Select the experiment in the viewer. Its fresh seeds and results are kept separate from the original controllers; see the [coordinated results](docs/COORDINATED_RESULTS.md).
+We compared three ways of using TypeSafe Jev to control traffic lights against fixed-time schedules and simple numerical controllers. The test used a SUMO simulation of twelve schematic intersections on Sixth and Seventh Avenues, West 25th–30th Streets, informed by published NYC turning volumes. Real API latency was included while traffic continued moving.
 
-The browser viewer displays recorded SUMO vehicle trajectories side by side. It does not generate traffic outcomes in JavaScript. Jev's benchmark runs advance at one simulated second per wall-clock second, with real API calls in a separate worker while traffic keeps moving.
+[**Open the side-by-side replay**](https://jan-barg.github.io/jev-traffic-control/) · [Detailed methods and reproduction](docs/REPRODUCING.md) · [Data provenance and limits](docs/NYC_BENCHMARK_AUDIT.md)
 
-**Evidence level: NYC-informed, vehicle-only simulation.** The AM turning volumes are published NYC study inputs. Geometry, lanes, signal timings, vehicle behavior and fleet mix are assumptions. This is not a reconstruction of verified DOT operation or an independently validated NYC digital twin. No pedestrian, cyclist, bus-stop or crash-safety benefit is claimed.
+## What we found
 
-The completed [40-run pilot and validation report](docs/BENCHMARK_RESULTS.md) finds that this first Jev controller increases delay compared with the tuned fixed plan. All measured results, including negative outcomes, are preserved. The viewer offers actual 2D trajectories, synchronized playback, signal-decision inspection and downloadable run data.
+- **Native Jev increased delay substantially.** Choosing whether individual signals should hold or switch performed worse than the tuned fixed schedule in both tested scenarios.
+- **Bounded Jev largely reproduced fixed-time control.** It retained the baseline split in 1,254 of 1,256 applied decisions; allowing a five-second adjustment did not produce a useful improvement.
+- **Coordinated Jev did not outperform a retuned fixed plan.** Selecting a corridor-wide plan reduced average delay against the original reference in two scenarios, but those paired uncertainty intervals included zero. The retuned fixed plan had lower mean delay in all three scenarios.
+- **Jev mostly repeated the numerical choice.** In coordinated control, it selected the supplied forecast's minimum-cost plan on 145 of 150 decisions. There was no demonstrated advantage over selecting that minimum directly in code.
 
-[Version 1.0.0](https://github.com/jan-barg/jev-traffic-control/tree/v1.0.0) preserves that first implementation. The [bounded-Jev extension](docs/BOUNDED_JEV_RESULTS.md) adds ten live runs with the original traffic schedules. Its policy was frozen after seeing v1 results, before running this extension. Reusing the five seeds makes this an exploratory comparison, not a new held-out confirmation study.
+These findings concern these implementations and modeled conditions. They do not establish a general limitation of Jev or AI traffic control, or effectiveness on actual NYC streets.
 
-## Run locally
+## Results
 
-Python 3.12 and a compatible SUMO wheel are required. This project was exercised on macOS arm64 with SUMO 1.27.1.
+The primary measure is **accumulated delay per requested evaluation trip, in seconds**: SUMO time loss plus waiting to enter the network, including unfinished and uninserted trips. Lower is better. Each number is a mean across five paired traffic seeds. **Bold marks the lowest mean in each scenario, including exact ties.** Bold does not imply statistical significance.
 
-```sh
-uv venv --python 3.12 .venv
-uv pip install --python .venv/bin/python -r requirements.txt
-```
+### Original controllers and bounded extension
 
-For Jev, create a local `.env` containing `TYPESAFE_API_KEY=...`. The file is ignored by Git. Never put the key in browser code or a public artifact. `.env.example` lists the expected names. The integration pins `jev-1.13.0` by default.
+| Controller | Morning | Morning + 50% surge |
+|---|---:|---:|
+| Tuned fixed-time | **40.37** | **46.95** |
+| Actuated | 61.67 | 87.37 |
+| Queue pressure | 59.91 | 77.02 |
+| Native Jev | 89.45 | 143.12 |
+| Bounded Jev | 40.39 | **46.95** |
 
-The generated network is already included. To regenerate and retune the conventional plan:
+The original pilot contains 40 runs; bounded Jev adds ten runs on the same seeds (11–15). The bounded controller was designed after observing the pilot, so its comparison is exploratory. Native Jev's delay increase versus fixed-time was **49.1 s/trip** in morning traffic (95% paired interval: 37.4 to 60.8) and **96.2 s/trip** in the surge (83.7 to 108.6).
 
-```sh
-.venv/bin/python -m trafficlab.tune
-```
+[Original pilot report](docs/BENCHMARK_RESULTS.md) · [Bounded Jev report](docs/BOUNDED_JEV_RESULTS.md) · [Results data](results/summary.json)
 
-The development sweep evaluates 16 fixed plans on seeds 901 and 902. The selected plan has a 90-second cycle, 52 seconds of avenue green, 30 seconds of cross-street green, three-second yellow and one-second all-red intervals. Its offsets create a nominal 9 m/s avenue progression. The signed `progression_speed_mps` implementation parameter is -9 because SUMO's offset convention advances the program clock; it does not imply cars travel backwards.
+### Coordinated plan selection
 
-Run a single conventional replication:
+| Controller | Morning | Morning + 50% surge | Changing directional demand |
+|---|---:|---:|---:|
+| Original tuned fixed-time | **39.33** | 44.53 | 52.34 |
+| Retuned fixed plan | 39.40 | **42.52** | **45.44** |
+| Numerical plan selector | 40.34 | 43.63 | 46.84 |
+| Coordinated Jev | 40.29 | 43.37 | 46.84 |
 
-```sh
-.venv/bin/python -m trafficlab.run --controller fixed --seed 11 --scenario am --warmup 180 --duration 600 --drain 180 --replay
-```
+This separate experiment contains 60 runs on fresh seeds (31–35). Compare controllers **within each table**: the different seeds explain why the same original fixed controller has different averages across the two experiments.
 
-Run the complete pilot benchmark:
+Coordinated Jev's mean difference from the original fixed plan was:
 
-```sh
-.venv/bin/python -m trafficlab.benchmark --only conventional --parallel 3
-.venv/bin/python -m trafficlab.benchmark --only jev --parallel 10
-.venv/bin/python -m trafficlab.report
-```
+| Scenario | Jev minus original fixed (s/trip) | 95% paired interval |
+|---|---:|---:|
+| Morning | +0.96 | −0.44 to +2.36 |
+| Surge | −1.17 | −3.28 to +0.95 |
+| Changing demand | −5.50 | −12.66 to +1.66 |
 
-The Jev command makes paid API calls using the configured account. Ten independent real-time replications run concurrently for approximately 16 minutes. It does not accelerate their simulated clocks. The measured service latency includes this concurrent request load. Lower concurrency increases total elapsed time and can change provider latency. The conventional runs complete much faster; controller computation is still measured and rounded up to a simulation step before an action is applied.
+Negative differences favor Jev. **All three intervals include zero.** Jev and the numerical selector produced identical primary delay in every changing-demand replication; their differences in the other two scenarios were small and uncertain. Improving the plan library helped, but this experiment did not establish an added benefit from Jev's selection.
 
-Run the separate bounded extension after the original benchmark (the launcher refuses to overwrite existing bounded results):
+[Coordinated report, including queues, travel times and completion](docs/COORDINATED_RESULTS.md) · [Results data](results/coordinated_summary.json) · [Frozen protocol](results/coordinated_protocol.json)
 
-```sh
-.venv/bin/python -m trafficlab.benchmark_bounded --parallel 10
-.venv/bin/python -m trafficlab.run_bounded --policy keep --seed 11 --scenario am --warmup 180 --duration 600 --drain 180 --tag bounded_keep_check --out-root tmp/bounded-validation
-.venv/bin/python -m trafficlab.validate_bounded
-.venv/bin/python -m trafficlab.report
-```
+## What the controllers actually did
 
-The bounded benchmark also makes paid, real-time API calls and takes approximately 16 minutes at concurrency ten. The keep-only run is a deterministic regression check, without API calls. `bounded_protocol.json` freezes the new policy and all original result hashes before evaluation. The audit verifies the actual signal transitions, response arrival times and exact keep-only equivalence. Native Jev is neither rerun nor replaced by this command. For another experiment, retain the existing evidence and use a fresh checkout/output set rather than overwriting it.
+| Approach | Decision |
+|---|---|
+| Tuned fixed-time | Repeat a coordinated 90-second schedule: 52 seconds of avenue green, 30 seconds of cross-street green, and eight seconds of clearance. Selected on separate development seeds. |
+| Actuated | Switch when the opposing road is waiting and the current approach empties or its green reaches 40 seconds, subject to common green limits. |
+| Queue pressure | Compare queues while accounting for downstream congestion, using a simple pressure rule. |
+| Native Jev | Every five seconds, choose hold or switch for each eligible intersection from its observed traffic state. |
+| Bounded Jev | Choose a five-second green transfer or retain the baseline at each intersection; the change lasts one cycle and preserves coordination. |
+| Retuned fixed plan | Keep one junction-specific split profile, selected offline from seven candidates on separate development seeds. |
+| Numerical plan selector | Every 90 seconds, choose the lowest forecast queue cost from five corridor plans. |
+| Coordinated Jev | Choose from those same five plans using the same forecasts and observed traffic. Install changes at eligible local cycle starts. |
 
-## Coordinated plan selection
+The coordinated forecast projects 180 seconds in two-second steps, using current queues, vehicle positions and speeds, recent boundary arrival rates, turning shares and downstream space. Its cost is predicted queued vehicle-seconds plus 30 seconds per vehicle still queued at the horizon. That penalty and the assumed discharge rate are modeling choices, not NYC-calibrated measurements. Neither selector sees scheduled future departures or demand changes.
 
-This experiment uses four arms: the original 52/30-second fixed plan, the best single plan from a development sweep, a numerical selector and Jev choosing from the same plan library. All retain 90-second cycles and the original coordination offsets. The new controllers change persistent green-split profiles across all twelve intersections; this version does not change offsets or cycle lengths.
+## Timing, validation and limits
 
-Seven profiles were evaluated on six development demand patterns and seeds 901–902 (84 simulations). The five retained plans include the original reference, one winner per development pattern and the best static plan across the morning/surge/directional-shift mixture. The retuned fixed baseline is selected before evaluation so ordinary retiming is not credited to Jev.
+There are **110 retained benchmark runs**, in addition to development and sensitivity simulations. The final code passed 20 automated tests. The coordinated audit independently checked 45,780 phase durations and 7,080 cycles, with no signal-timing violations, conflicting greens, simulated collisions or teleports. All earlier results were preserved.
 
-Every 90 seconds, starting at second 60, the selectors receive current queues and occupancies, the last two minutes of arrivals and an approximate 180-second queue forecast for every candidate. Forecasts use observed vehicle positions and speeds and propagate traffic between finite-capacity links using recent boundary arrival rates, published turn shares and assumed discharge rates. The numerical arm minimizes forecast queue delay plus a terminal queue penalty; Jev evaluates the same candidates with a neutral prompt. Neither receives future departures, scenario labels or scheduled demand-change times.
+Jev ran at one simulated second per wall-clock second. Coordinated control made **150 real API calls**, with **412 ms median** and **552 ms P95** end-to-end latency, zero API errors and zero missed deadlines. Actual inference and the subsequent wait for plan installation affected the traffic outcome. Replay speed only changes the animation. See the reports for native and bounded latency measurements.
 
-The selected plan becomes eligible three seconds after observation and rolls into each intersection at its next local cycle start. This preserves coordination and clearance durations. Actual observation, forecast and API time are measured; Jev runs at 1x wall time, with a two-second request deadline and no retries. Late or failed requests retain the current plan. Numerical computation is also measured and delayed before acceptance. Installation waits affect both arms' traffic outcomes.
+The first coordinated live batch was invalidated by laptop sleep and repeated in full with unchanged code, seeds and validity rules. Its metrics and file hashes are disclosed in the [execution retry record](results/coordinated_execution_retry.json); no valid run was selected or discarded based on traffic performance.
 
-Evaluation uses fresh seeds 31–35, four arms and three scenarios (60 runs). The directional case is synthetic: baseline inflow for the first 200 evaluation seconds, then avenue inflow ×0.65 and cross-street inflow ×2.2 for 200 seconds, then avenue ×1.4 and cross street ×0.6. Morning and uniform surge remain in the benchmark. Compare Jev against both fixed plans and the numerical selector using paired intervals; improvement over the original reference alone does not isolate a Jev contribution.
+The conclusions remain limited:
 
-From a fresh output set, after retaining the original evidence:
+- Five paired seeds per scenario form a small pilot. Intervals are paired Student-t intervals without multiple-comparison adjustment and do not cover uncertainty in the physical model.
+- Published turning counts inform arrivals and routes. Cars do turn, but geometry, lanes, driving behavior, fleet mix and signal timings are assumptions; the reference is not a verified NYC DOT timing plan.
+- The model excludes pedestrians, bicycles, bus stops and curbside obstruction. Surge and directional changes are synthetic cases.
+- No independent NYC travel-time or queue observations were used for field validation. Zero simulated collisions is an implementation check, not evidence of street safety.
 
-```sh
-.venv/bin/python -m trafficlab.tune_plans
-.venv/bin/python -m trafficlab.run_coordinated --controller fixed --seed 11 --drain 180 --tag plan_fixed_check --out-root tmp/plan-validation
-.venv/bin/python -m trafficlab.benchmark_coordinated --only conventional --parallel 3
-.venv/bin/python -m trafficlab.benchmark_coordinated --only jev --parallel 15
-.venv/bin/python -m trafficlab.validate_coordinated
-.venv/bin/python -m trafficlab.report_coordinated
-```
+[Original validation](results/validation.json) · [Bounded audit](results/bounded_validation.json) · [Coordinated audit](results/coordinated_validation.json)
 
-Keep the host awake and its network connected throughout live runs. On macOS, prefix the live benchmark command with `caffeinate -diu`; leave the lid open. The first coordinated live batch was invalidated by host sleep and repeated in full with unchanged controllers. Its metrics, file hashes and execution evidence are retained in [the retry record](results/coordinated_execution_retry.json).
+## Explore or reproduce
 
-The selected library and completed results are already included in this checkout. The tuning/benchmark commands refuse to overwrite them. The live command uses the configured paid TypeSafe account; fifteen staggered concurrent replications take about 16 minutes. Independent validation checks observed signal phases, cycle starts, per-intersection installation times, model-answer agreement, actual response timing, paired demand, conservation and the hashes of all fifty previous results. A fixed-only regression exactly reproduces the original runner.
+The [GitHub Pages viewer](https://jan-barg.github.io/jev-traffic-control/) displays recorded SUMO trajectories, synchronized playback, signal decisions and downloadable metrics. Viewing it requires no API key and makes no Jev calls. Representative replay seeds were selected in advance: 11 for the original experiment and 31 for coordinated plans.
 
-`results/coordinated_protocol.json` freezes the experiment before evaluation. `results/coordinated_summary.json` and `coordinated_validation.json` contain results and audit evidence. The viewer exports these separately as `coordinated-summary.json`, `coordinated-runs.json` and `coordinated-report.md`, with preselected seed-31 trajectories. Raw forecasts, API responses, actions and signal-installation logs remain in `results/raw/plan_*/`.
-
-Preview the exported viewer:
+To view the same files locally:
 
 ```sh
 python3 -m http.server 8765 --bind 127.0.0.1 --directory viewer/dist
 ```
 
-Open `http://127.0.0.1:8765`. Choose morning or surge demand, select the comparison controller, pause/seek, change playback speed, or click a signal on the right-hand map to inspect its last applied decision. Playback consumes no API tokens. The representative replay is seed 11, selected in advance, rather than a best-performing run.
+Open `http://127.0.0.1:8765`. For dependencies, simulation commands, model assumptions and audit procedures, see [Running and auditing the experiment](docs/REPRODUCING.md). New live benchmarks make paid TypeSafe API calls.
 
-## Data and model
+Source, summary results and representative replays are committed. Full raw simulation/request logs remain in the ignored local `results/raw/` directory; the repository does not contain every raw trace. [Version 1.0.0](https://github.com/jan-barg/jev-traffic-control/tree/v1.0.0) preserves the first implementation.
 
-`data/midtown_am.json` contains 48 published turning volumes from Figure 13-6a of the Midtown South FEIS. All 16 internal links balance exactly. The resulting expected boundary demand is 4,165 vehicles/hour. The generator uses Poisson boundary arrivals and movement probabilities inferred from the published turns. Actual controller-dependent internal flows remain free to change. Identical seeds generate identical departures, routes, vehicle types and desired-speed factors across controllers.
-
-The model assumes 80 m blocks, 260 m avenue spacing, three avenue lanes, one cross-street lane, 180 m boundary approaches, a 25 mph nominal speed cap, 5% trucks and otherwise passenger cars. Fixed routes may include loops because choices are sampled from local turning shares; this is not an observed origin/destination matrix. A route-length guard fails rather than silently truncating a very long route. SUMO handles car following, lane changes, junction movement and vehicle interactions. Driver noise during simulation is disabled; stochasticity is in the pre-generated traffic schedules and vehicle parameters, which are shared between arms.
-
-The surge scenario raises boundary arrival rates by 50% in the middle half of the ten-minute evaluation window. It is a synthetic stress case based on the same turning shares, not a measured NYC incident.
-
-Detailed data provenance and outstanding field-data gaps are in [the NYC audit](docs/NYC_BENCHMARK_AUDIT.md).
-
-## Controllers and latency
-
-- **Tuned fixed-time:** an assumed coordinated plan selected using separate development seeds. It is not labeled actual NYC signal control.
-- **Simple actuated:** after minimum green, switch when the opposing approach is queued and the active approach is empty or has been green for 40 seconds; maximum green still applies.
-- **Queue pressure:** compare queued vehicles with turn-share-weighted downstream queues and one-vehicle hysteresis. This is a simple pressure heuristic, not a reproduction of every max-pressure algorithm.
-- **Jev:** choose `hold` or `switch` from compact approach queues, approach vehicle counts, precomputed pressure, downstream storage estimates, current phase and phase age. Batch independent intersection questions; the model cannot see future departures.
-- **Bounded Jev:** retain the fixed controller's coordination and choose one avenue/cross-street green split per local cycle: 47/35, 52/30 or 57/25 seconds. The cycle remains 90 seconds. The model sees current queues, vehicles, lane counts, downstream storage and a 15-second arrival estimate from current positions and speeds, with no future departures. A request is made 30–40 seconds into avenue green, subject to a two-second deadline and a 42-second application cutoff. Late or failed responses keep the baseline. Adjustments expire each cycle.
-
-For the original three adaptive arms, a deterministic guard enforces 22-second minimum greens, 60-second maximum greens, three-second yellow and one-second all-red. An inference result is applied only after its actual measured arrival time, rounded to a simulation step, and only if its phase epoch remains valid. A two-second request deadline triggers queue-pressure fallback. Late or superseded responses are discarded. The client does not retry. Forced transitions and fallback actions are logged separately from model decisions.
-
-Bounded Jev instead operates within SUMO's original coordinated program. It moves the end of avenue green by at most five seconds and compensates during cross-street green so the next cycle begins at the original time. It keeps all yellow and all-red durations. Its three allowed splits satisfy the original green bounds. The `keep` choice makes no signal-duration write; always choosing it exactly reproduces the fixed plan. This controller has its own module and runner; the native code is unchanged.
-
-The integration measures observation preparation, client scheduling and API completion. Roadside sensing and physical actuation delays are not measured by this setup. Simulation step is 0.2 s. Clock lag is logged; a run is marked technically invalid if maximum lag reaches a full step. This checks the host's ability to maintain real time, not deployment readiness.
-
-## Metrics and validation
-
-The evaluation cohort includes all vehicles scheduled during the ten-minute measurement window. Three minutes of warm-up precede it; a three-minute drain follows it. Warm-up vehicles remain on the road and influence traffic, but are excluded from cohort trip metrics. Network queue metrics cover the measurement window and include every vehicle physically present.
-
-Primary outcome: **SUMO `timeLoss` plus insertion delay, divided by all requested cohort trips**, including unfinished and never-inserted vehicles. For never-inserted vehicles, elapsed time since their scheduled departure is retained as entry delay. Lower is better. This is cumulative loss through a fixed horizon, not predicted eventual delay after the simulation stops.
-
-Supporting measures: completed-trip mean and 95th-percentile travel times; mean/peak number of halted vehicles; completed throughput before demand ends and after drain; unfinished/uninserted trips; waiting episodes; and congested link-seconds. The last measure is a spillback **proxy**: at least one halted vehicle and occupancy above 80% of nominal storage, assuming 7.5 m per vehicle. It is not a directly measured queue-tail position. Trip-time columns are conditional on completion and must be read alongside unfinished counts.
-
-Five evaluation seeds (11–15) are paired across four original controllers and two demand cases: 40 original runs. The bounded extension adds ten, for 50 total. Report differences using paired Student-t 95% intervals across seeds. Individual vehicles are not treated as independent experimental replications. Secondary metrics are descriptive; no multiple-comparison correction or broad superiority claim is made. The comparison between bounded and native Jev changes both coordination and decision policy; the fixed arm tests whether bounded choices improve the coordinated baseline.
-
-```sh
-.venv/bin/python -m pytest -q
-.venv/bin/python -m trafficlab.validate
-```
-
-Tests cover signal clearances, minimum/maximum green, stale responses, deadlines, no early application, demand reproducibility and accounting for unfinished demand. Runtime checks cover vehicle conservation, conflicting greens, collisions, teleports and clock lag. The validation script checks in-sample turning-flow consistency, an independent deterministic rerun, and conventional-controller sensitivity to boundary length, lane count, demand and timestep. Those checks do not replace held-out travel-time and queue observations. Jev sensitivity to those alternative physical assumptions is not yet evaluated.
-
-## Files
-
-- `trafficlab/`: network/demand generation, controllers, runner, tuning, benchmark and reporting.
-- `scenario/`: generated SUMO network and metadata; demand files are deterministic per seed.
-- `results/protocol.json`: protocol and source hashes recorded before the pilot.
-- `results/bounded_protocol.json`, `results/bounded_validation.json`: frozen extension design, original-result hashes and independent signal/latency audit.
-- `results/summary.json`, `results/validation.json`: aggregated outcomes and verification evidence.
-- `results/raw/`: per-run SUMO trip files, request/action logs, results and compressed replay. Ignored by Git because reruns create sizeable outputs. Retain these locally to audit the delivered benchmark.
-- `viewer/dist/`: static presentation, exported run metrics and compressed trajectories. It contains no API key and cannot operate real traffic lights.
-
-Sources: [SUMO trip metrics](https://sumo.dlr.de/docs/Simulation/Output/TripInfo.html), [TypeSafe documentation](https://docs.typesafe.ai/), [NYC study record](https://zap.planning.nyc.gov/projects/2024M0142). The requested TypeSafe skill is installed in `.agents/skills/typesafe-ai/`.
+GitHub Pages publishes only `viewer/dist/` through [the deployment workflow](.github/workflows/pages.yml). Viewer changes pushed to `main` update the site automatically; deployment never reruns the experiment or requires a TypeSafe secret.
