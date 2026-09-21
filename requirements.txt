@@ -1,0 +1,8 @@
+eclipse-sumo==1.27.1
+libsumo==1.27.1
+traci==1.27.1
+numpy==2.5.3
+scipy==1.18.1
+typesafe-sdk==0.7.0
+python-dotenv==1.2.3
+pytest==9.1.1

@@ -1,0 +1,6 @@
+Computer Modern Unicode 0.7.0
+Source: https://ctan.org/pkg/cm-unicode
+Fonts: https://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/
+Files: cmunrm.otf (regular), cmunbx.otf (bold), cmunti.otf (italic)
+License: SIL Open Font License; see OFL.txt.
+Redistributed without modification.

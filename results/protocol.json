@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-09-21T15:58:51.756221+00:00",
+  "seeds": [
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "development_seeds": [
+    901,
+    902
+  ],
+  "scenarios": {
+    "am": "published AM expected arrival rates",
+    "surge": "50% increase in boundary demand during middle half of measurement window"
+  },
+  "warmup_s": 180,
+  "measurement_s": 600,
+  "drain_s": 180,
+  "step_s": 0.2,
+  "primary_metric": "SUMO timeLoss + entry delay per requested evaluation-cohort trip, including unfinished/uninserted demand",
+  "jev": "real API calls; real-time paced; 2 s decision deadline; 5 s cadence; no retries; queue-pressure fallback",
+  "geometry": "schematic NYC-informed 12-node grid; observed turns, assumed lanes/timings/behavior",
+  "inference": "paired t intervals across independent seeds; pilot n=5, no field-effect claim",
+  "source_hashes": {
+    "trafficlab/run.py": "2b385bc11b163c5e0e642ae7f369c289151ccb69deda2e4d89c5a206f1f33037",
+    "trafficlab/benchmark.py": "d037b063eb2707d313cd85ab72a59fe88b87fbdb020a63aced985588c5f45cf1",
+    "trafficlab/controllers.py": "6bca9105c4441880d7e42b65fd31682ecbe216d417d9384947b4e42fc30b3437",
+    "trafficlab/__init__.py": "3291f07afcc0978932224c077c9136d562975de1f2a38d1de75aee58a0dede56",
+    "trafficlab/tune.py": "63b25090b2f872a7dcd33bbc628a1f802d90941a5388d4fe23a2ec6470bc9dee",
+    "trafficlab/scenario.py": "3eb87a3f1d285f72566234f4198393e1fb59ec4ca0f74f7ae495900121a08ba8",
+    "scenario/network.net.xml": "48f98bdacb4fc17ebb96b64b0057b34d387e7ec64bb7c2652d5924a17a3dafd3",
+    "data/midtown_am.json": "41bfefc27e38d14d800532be8bd3c8957ba2c35f57ae3f726645dbe7c53f8114"
+  }
+}

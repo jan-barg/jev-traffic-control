@@ -1,0 +1,8 @@
+{
+  "viewer_url": "https://midtown-traffic-lab.janbarg.chatgpt.site",
+  "access": "owner-only",
+  "benchmark_runs": 40,
+  "valid_runs": 40,
+  "local_report": "docs/BENCHMARK_RESULTS.md",
+  "local_readme": "README.md"
+}

@@ -1,0 +1,424 @@
+{
+  "field_validated": false,
+  "technical_reproducibility": true,
+  "primary_audit": {
+    "matrix_runs": 40,
+    "protocol_hashes_match": {
+      "trafficlab/run.py": true,
+      "trafficlab/benchmark.py": true,
+      "trafficlab/controllers.py": true,
+      "trafficlab/__init__.py": true,
+      "trafficlab/tune.py": true,
+      "trafficlab/scenario.py": true,
+      "scenario/network.net.xml": true,
+      "data/midtown_am.json": true
+    },
+    "paired_demand_and_network": true,
+    "vehicle_conservation": true,
+    "jev_requests": 1866,
+    "jev_applied_actions": 10094,
+    "no_early_application": true,
+    "application_within_step_plus_clock_lag": true,
+    "max_polling_delay_s": 0.20353954198654378,
+    "latency_s": {
+      "p50": 0.23728516699338797,
+      "p95": 0.4101245839992771,
+      "p99": 0.6193878311547443,
+      "max": 1.7911548750125803
+    },
+    "application_age_s": {
+      "p50": 0.39999999999997726,
+      "p95": 0.6000000000000014,
+      "max": 1.8000000000000007
+    },
+    "jev_choices": {
+      "hold": 8448,
+      "switch": 1646
+    },
+    "jev_forced_max_green_transitions": 742,
+    "max_clock_lag_s": 0.03408675000537187
+  },
+  "input_flow_check": {
+    "kind": "in-sample consistency, not independent validation",
+    "movements": 48,
+    "replications": 5,
+    "weighted_absolute_relative_error": 0.038803986710963446,
+    "detail": [
+      {
+        "junction": "7_30",
+        "movement": "avenue_through",
+        "published_vph": 825,
+        "simulated_mean_vph": 846.0
+      },
+      {
+        "junction": "7_30",
+        "movement": "avenue_turn",
+        "published_vph": 115,
+        "simulated_mean_vph": 135.6
+      },
+      {
+        "junction": "7_30",
+        "movement": "cross_through",
+        "published_vph": 295,
+        "simulated_mean_vph": 297.6
+      },
+      {
+        "junction": "7_30",
+        "movement": "cross_turn",
+        "published_vph": 145,
+        "simulated_mean_vph": 118.8
+      },
+      {
+        "junction": "7_29",
+        "movement": "avenue_through",
+        "published_vph": 875,
+        "simulated_mean_vph": 892.8
+      },
+      {
+        "junction": "7_29",
+        "movement": "avenue_turn",
+        "published_vph": 95,
+        "simulated_mean_vph": 96.0
+      },
+      {
+        "junction": "7_29",
+        "movement": "cross_through",
+        "published_vph": 210,
+        "simulated_mean_vph": 204.0
+      },
+      {
+        "junction": "7_29",
+        "movement": "cross_turn",
+        "published_vph": 140,
+        "simulated_mean_vph": 106.8
+      },
+      {
+        "junction": "7_28",
+        "movement": "avenue_through",
+        "published_vph": 890,
+        "simulated_mean_vph": 884.4
+      },
+      {
+        "junction": "7_28",
+        "movement": "avenue_turn",
+        "published_vph": 125,
+        "simulated_mean_vph": 122.4
+      },
+      {
+        "junction": "7_28",
+        "movement": "cross_through",
+        "published_vph": 245,
+        "simulated_mean_vph": 234.0
+      },
+      {
+        "junction": "7_28",
+        "movement": "cross_turn",
+        "published_vph": 110,
+        "simulated_mean_vph": 100.8
+      },
+      {
+        "junction": "7_27",
+        "movement": "avenue_through",
+        "published_vph": 995,
+        "simulated_mean_vph": 984.0
+      },
+      {
+        "junction": "7_27",
+        "movement": "avenue_turn",
+        "published_vph": 5,
+        "simulated_mean_vph": 6.0
+      },
+      {
+        "junction": "7_27",
+        "movement": "cross_through",
+        "published_vph": 25,
+        "simulated_mean_vph": 28.8
+      },
+      {
+        "junction": "7_27",
+        "movement": "cross_turn",
+        "published_vph": 150,
+        "simulated_mean_vph": 130.8
+      },
+      {
+        "junction": "7_26",
+        "movement": "avenue_through",
+        "published_vph": 1045,
+        "simulated_mean_vph": 1023.6
+      },
+      {
+        "junction": "7_26",
+        "movement": "avenue_turn",
+        "published_vph": 100,
+        "simulated_mean_vph": 90.0
+      },
+      {
+        "junction": "7_26",
+        "movement": "cross_through",
+        "published_vph": 200,
+        "simulated_mean_vph": 231.6
+      },
+      {
+        "junction": "7_26",
+        "movement": "cross_turn",
+        "published_vph": 130,
+        "simulated_mean_vph": 152.4
+      },
+      {
+        "junction": "7_25",
+        "movement": "avenue_through",
+        "published_vph": 1085,
+        "simulated_mean_vph": 1052.4
+      },
+      {
+        "junction": "7_25",
+        "movement": "avenue_turn",
+        "published_vph": 90,
+        "simulated_mean_vph": 99.6
+      },
+      {
+        "junction": "7_25",
+        "movement": "cross_through",
+        "published_vph": 160,
+        "simulated_mean_vph": 154.8
+      },
+      {
+        "junction": "7_25",
+        "movement": "cross_turn",
+        "published_vph": 105,
+        "simulated_mean_vph": 96.0
+      },
+      {
+        "junction": "6_30",
+        "movement": "avenue_through",
+        "published_vph": 1205,
+        "simulated_mean_vph": 1197.6
+      },
+      {
+        "junction": "6_30",
+        "movement": "avenue_turn",
+        "published_vph": 110,
+        "simulated_mean_vph": 120.0
+      },
+      {
+        "junction": "6_30",
+        "movement": "cross_through",
+        "published_vph": 260,
+        "simulated_mean_vph": 318.0
+      },
+      {
+        "junction": "6_30",
+        "movement": "cross_turn",
+        "published_vph": 150,
+        "simulated_mean_vph": 151.2
+      },
+      {
+        "junction": "6_29",
+        "movement": "avenue_through",
+        "published_vph": 1235,
+        "simulated_mean_vph": 1263.6
+      },
+      {
+        "junction": "6_29",
+        "movement": "avenue_turn",
+        "published_vph": 195,
+        "simulated_mean_vph": 176.4
+      },
+      {
+        "junction": "6_29",
+        "movement": "cross_through",
+        "published_vph": 155,
+        "simulated_mean_vph": 181.2
+      },
+      {
+        "junction": "6_29",
+        "movement": "cross_turn",
+        "published_vph": 80,
+        "simulated_mean_vph": 91.2
+      },
+      {
+        "junction": "6_28",
+        "movement": "avenue_through",
+        "published_vph": 1270,
+        "simulated_mean_vph": 1267.2
+      },
+      {
+        "junction": "6_28",
+        "movement": "avenue_turn",
+        "published_vph": 115,
+        "simulated_mean_vph": 111.6
+      },
+      {
+        "junction": "6_28",
+        "movement": "cross_through",
+        "published_vph": 210,
+        "simulated_mean_vph": 188.4
+      },
+      {
+        "junction": "6_28",
+        "movement": "cross_turn",
+        "published_vph": 160,
+        "simulated_mean_vph": 180.0
+      },
+      {
+        "junction": "6_27",
+        "movement": "avenue_through",
+        "published_vph": 1215,
+        "simulated_mean_vph": 1219.2
+      },
+      {
+        "junction": "6_27",
+        "movement": "avenue_turn",
+        "published_vph": 60,
+        "simulated_mean_vph": 54.0
+      },
+      {
+        "junction": "6_27",
+        "movement": "cross_through",
+        "published_vph": 115,
+        "simulated_mean_vph": 97.2
+      },
+      {
+        "junction": "6_27",
+        "movement": "cross_turn",
+        "published_vph": 170,
+        "simulated_mean_vph": 153.6
+      },
+      {
+        "junction": "6_26",
+        "movement": "avenue_through",
+        "published_vph": 1170,
+        "simulated_mean_vph": 1178.4
+      },
+      {
+        "junction": "6_26",
+        "movement": "avenue_turn",
+        "published_vph": 145,
+        "simulated_mean_vph": 146.4
+      },
+      {
+        "junction": "6_26",
+        "movement": "cross_through",
+        "published_vph": 195,
+        "simulated_mean_vph": 188.4
+      },
+      {
+        "junction": "6_26",
+        "movement": "cross_turn",
+        "published_vph": 105,
+        "simulated_mean_vph": 91.2
+      },
+      {
+        "junction": "6_25",
+        "movement": "avenue_through",
+        "published_vph": 1245,
+        "simulated_mean_vph": 1270.8
+      },
+      {
+        "junction": "6_25",
+        "movement": "avenue_turn",
+        "published_vph": 120,
+        "simulated_mean_vph": 105.6
+      },
+      {
+        "junction": "6_25",
+        "movement": "cross_through",
+        "published_vph": 145,
+        "simulated_mean_vph": 122.4
+      },
+      {
+        "junction": "6_25",
+        "movement": "cross_turn",
+        "published_vph": 70,
+        "simulated_mean_vph": 49.2
+      }
+    ]
+  },
+  "sensitivity": [
+    {
+      "case": "base",
+      "buffer_m": 180,
+      "avenue_lanes": 3,
+      "demand_multiplier": 1,
+      "step_s": 0.2,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 40.89807634621317,
+        "pressure": 57.24135705539823
+      }
+    },
+    {
+      "case": "short_buffer",
+      "buffer_m": 120,
+      "avenue_lanes": 3,
+      "demand_multiplier": 1,
+      "step_s": 0.2,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 40.4354950777063,
+        "pressure": 57.923954871275406
+      }
+    },
+    {
+      "case": "long_buffer",
+      "buffer_m": 240,
+      "avenue_lanes": 3,
+      "demand_multiplier": 1,
+      "step_s": 0.2,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 41.03562608464566,
+        "pressure": 59.62520500322595
+      }
+    },
+    {
+      "case": "two_avenue_lanes",
+      "buffer_m": 180,
+      "avenue_lanes": 2,
+      "demand_multiplier": 1,
+      "step_s": 0.2,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 43.90420075786758,
+        "pressure": 88.00673378804136
+      }
+    },
+    {
+      "case": "demand_minus_15pct",
+      "buffer_m": 180,
+      "avenue_lanes": 3,
+      "demand_multiplier": 0.85,
+      "step_s": 0.2,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 39.03600036182461,
+        "pressure": 56.95258222424857
+      }
+    },
+    {
+      "case": "demand_plus_15pct",
+      "buffer_m": 180,
+      "avenue_lanes": 3,
+      "demand_multiplier": 1.15,
+      "step_s": 0.2,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 40.927775901338386,
+        "pressure": 69.2708583558358
+      }
+    },
+    {
+      "case": "step_100ms",
+      "buffer_m": 180,
+      "avenue_lanes": 3,
+      "demand_multiplier": 1,
+      "step_s": 0.1,
+      "all_valid": true,
+      "mean_delay_s": {
+        "fixed": 40.69460446401036,
+        "pressure": 57.29452312322548
+      }
+    }
+  ],
+  "limits": "Sensitivity checks use conventional controllers only. Jev robustness to different geometry, sensor noise and response-time distributions remains untested."
+}

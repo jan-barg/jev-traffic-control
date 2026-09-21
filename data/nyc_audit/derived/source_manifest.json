@@ -1,0 +1,100 @@
+{
+  "atr_locations_2022_onward": {
+    "file": "atr_locations_2022_onward.json",
+    "url": "https://data.cityofnewyork.us/resource/7ym2-wayt.json?%24select=boro%2Cstreet%2Cfromst%2Ctost%2Csegmentid%2Cwktgeom%2Cyr%2Ccount%28%2A%29+as+records&%24where=yr%3E%3D2022&%24group=boro%2Cstreet%2Cfromst%2Ctost%2Csegmentid%2Cwktgeom%2Cyr&%24order=boro%2Cstreet%2Cyr&%24limit=50000",
+    "meaning": "All-borough location/year aggregates; records are source rows, not vehicles.",
+    "limit": 50000,
+    "status": "cached",
+    "bytes": 90984,
+    "sha256": "7959a3ad59fe121ed8992a828bc8eae6052d7ac75bd47f66d827e7e4cfa16ffa",
+    "cache_file_modified_at_utc": "2026-09-21T15:14:57.223820+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time.",
+    "rows": 448
+  },
+  "atr_locations_all_years": {
+    "file": "atr_locations_all_years.json",
+    "url": "https://data.cityofnewyork.us/resource/7ym2-wayt.json?%24select=boro%2Cstreet%2Cfromst%2Ctost%2Csegmentid%2Cwktgeom%2Cyr%2Ccount%28%2A%29+as+records&%24where=boro+in%28%27Manhattan%27%2C%27Brooklyn%27%2C%27Queens%27%29&%24group=boro%2Cstreet%2Cfromst%2Ctost%2Csegmentid%2Cwktgeom%2Cyr&%24order=boro%2Cstreet%2Cyr&%24limit=50000",
+    "meaning": "Location/year aggregates for Manhattan, Brooklyn and Queens only.",
+    "limit": 50000,
+    "status": "cached",
+    "bytes": 620929,
+    "sha256": "a6d7e1b0f0ee768edfca584051bd8a15e02f1e013107bf9040e48227aa1b6010",
+    "cache_file_modified_at_utc": "2026-09-21T15:17:04.684967+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time.",
+    "rows": 3249
+  },
+  "speed_snapshot": {
+    "file": "speed_snapshot.json",
+    "url": "https://data.cityofnewyork.us/resource/i4gi-tjb9.json?%24limit=2000",
+    "meaning": "Unordered 2,000-row sample; incomplete and unsuitable for proving absent coverage.",
+    "status": "cached",
+    "bytes": 1250994,
+    "sha256": "47bbb819a1c3ac95cdd101eb0b278e1afbc96f0b89a1f300b18f03db4c3d2d03",
+    "cache_file_modified_at_utc": "2026-09-21T15:16:53.143511+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time.",
+    "rows": 2000
+  },
+  "speed_links": {
+    "file": "speed_links.json",
+    "url": "https://data.cityofnewyork.us/resource/i4gi-tjb9.json?%24select=link_id%2Clink_name%2Cborough%2Clink_points%2Cencoded_poly_line&%24group=link_id%2Clink_name%2Cborough%2Clink_points%2Cencoded_poly_line&%24limit=5000",
+    "meaning": "Attempted distinct link inventory; an absent file indicates failed retrieval.",
+    "limit": 5000,
+    "status": "missing"
+  },
+  "mim_speed_snapshot": {
+    "file": "mim_speed_snapshot.csv",
+    "url": "https://linkdata.nyctmc.org/data/mim_data_opendata.csv",
+    "catalog": "https://data.cityofnewyork.us/d/ume6-8kxp",
+    "meaning": "One live local-street snapshot, not a historical archive; speed unit is ft/s.",
+    "status": "cached",
+    "bytes": 56792,
+    "sha256": "21fadc23836d18d020ad50fbe1527af397ba4be767e612167ab601c9fa2b834d",
+    "cache_file_modified_at_utc": "2026-09-21T15:21:57.196923+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time.",
+    "rows": 351
+  },
+  "midtown_south_transportation": {
+    "file": "midtown_south_transportation.pdf",
+    "url": "https://zap-api-production.herokuapp.com/document/artifact/01QY2C5KMDOTP3PCPCOJAKKQIYDVOBY22D",
+    "catalog": "https://zap.planning.nyc.gov/projects/2024M0142",
+    "meaning": "24DCP094M FEIS chapter 13; June 2024 data collection, with overlapping-study inputs.",
+    "status": "cached",
+    "bytes": 9107216,
+    "sha256": "35389543b3e344601938db18115a763f3c985662141db5103d26975b97a3e066",
+    "cache_file_modified_at_utc": "2026-09-21T15:16:02.771117+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time."
+  },
+  "midtown_south_transportation_appendix": {
+    "file": "midtown_south_transportation_appendix.pdf",
+    "url": "https://zap-api-production.herokuapp.com/document/artifact/01QY2C5KME4ERQCUMD3FCYAGN46RVN2RZA",
+    "catalog": "https://zap.planning.nyc.gov/projects/2024M0142",
+    "meaning": "24DCP094M FEIS Appendix E: transportation planning material, not full timing sheets.",
+    "status": "cached",
+    "bytes": 3156392,
+    "sha256": "1111d739ea2c4bbdb4b4335672cf1068d75e2dd6ade60724218ad7ce030e47c9",
+    "cache_file_modified_at_utc": "2026-09-21T15:16:02.721884+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time."
+  },
+  "atlantic_avenue_transportation": {
+    "file": "atlantic_avenue_transportation.pdf",
+    "url": "https://zap-api-production.herokuapp.com/document/artifact/01QY2C5KKERTGMSNAJAFB26CR2FVVKZOZR",
+    "catalog": "https://zap.planning.nyc.gov/projects/2022K0436",
+    "meaning": "24DCP019K FEIS chapter 13; December 2023 data collection.",
+    "status": "cached",
+    "bytes": 6949657,
+    "sha256": "3fdd38d439057a8264b4eeddfd0f299254a42b04236083d7e9fea6cbbf81379c",
+    "cache_file_modified_at_utc": "2026-09-21T15:21:02.028134+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time."
+  },
+  "atlantic_avenue_transportation_appendix": {
+    "file": "atlantic_avenue_transportation_appendix.pdf",
+    "url": "https://zap-api-production.herokuapp.com/document/artifact/01QY2C5KOEM45ESKNTGRGKVFLEY7M4P5J4",
+    "catalog": "https://zap.planning.nyc.gov/projects/2022K0436",
+    "meaning": "24DCP019K FEIS Appendix E: transportation planning material.",
+    "status": "cached",
+    "bytes": 3250473,
+    "sha256": "64a8645755774ed37b779d9711e660a465e7a36b06b244b1d06b42dd16400d1d",
+    "cache_file_modified_at_utc": "2026-09-21T15:21:02.756444+00:00",
+    "timestamp_note": "File modification time is a download-time proxy, not observation time."
+  }
+}

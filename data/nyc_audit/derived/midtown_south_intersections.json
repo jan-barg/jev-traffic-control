@@ -1,0 +1,127 @@
+{
+  "scenario_id": "midtown_south_6_7_w25_w30",
+  "count": 12,
+  "reference_campaign": "June 2024; exact dates and overlapping-study inputs to confirm",
+  "intersections": [
+    {
+      "study_intersection_id": 9,
+      "avenue": "6th Avenue",
+      "cross_street": "West 30th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 48,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 10,
+      "avenue": "6th Avenue",
+      "cross_street": "West 29th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 48,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 11,
+      "avenue": "6th Avenue",
+      "cross_street": "West 28th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 48,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 12,
+      "avenue": "6th Avenue",
+      "cross_street": "West 27th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 48,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 13,
+      "avenue": "6th Avenue",
+      "cross_street": "West 26th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 48,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 14,
+      "avenue": "6th Avenue",
+      "cross_street": "West 25th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 48,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 23,
+      "avenue": "7th Avenue",
+      "cross_street": "West 30th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 49,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 24,
+      "avenue": "7th Avenue",
+      "cross_street": "West 29th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 49,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 25,
+      "avenue": "7th Avenue",
+      "cross_street": "West 28th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 49,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 26,
+      "avenue": "7th Avenue",
+      "cross_street": "West 27th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 49,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 27,
+      "avenue": "7th Avenue",
+      "cross_street": "West 26th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 49,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    },
+    {
+      "study_intersection_id": 28,
+      "avenue": "7th Avenue",
+      "cross_street": "West 25th Street",
+      "control_type_in_study": "signalized",
+      "source": "24DCP094M FEIS Chapter 13, Table 13-20 and Figures 13-6a-d",
+      "source_pdf_page": 49,
+      "simulator_id": null,
+      "verified_timing_plan": false
+    }
+  ]
+}

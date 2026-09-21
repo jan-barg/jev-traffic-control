@@ -1,0 +1,179 @@
+{
+  "development_seeds": [
+    901,
+    902
+  ],
+  "objective": "mean cohort time loss + entry delay per requested trip",
+  "selected": {
+    "avenue_green_s": 52,
+    "cross_green_s": 30,
+    "progression_speed_mps": -9,
+    "mean_delay_s": 39.10838832682333,
+    "seed_delays": [
+      39.56169565217391,
+      38.65508100147275
+    ]
+  },
+  "candidates": [
+    {
+      "avenue_green_s": 40,
+      "cross_green_s": 42,
+      "progression_speed_mps": 0,
+      "mean_delay_s": 47.63841789929777,
+      "seed_delays": [
+        48.261681159420284,
+        47.01515463917526
+      ]
+    },
+    {
+      "avenue_green_s": 40,
+      "cross_green_s": 42,
+      "progression_speed_mps": 6,
+      "mean_delay_s": 86.53435551002113,
+      "seed_delays": [
+        86.22956521739131,
+        86.83914580265096
+      ]
+    },
+    {
+      "avenue_green_s": 40,
+      "cross_green_s": 42,
+      "progression_speed_mps": 9,
+      "mean_delay_s": 66.15128221382682,
+      "seed_delays": [
+        66.79715942028986,
+        65.50540500736376
+      ]
+    },
+    {
+      "avenue_green_s": 40,
+      "cross_green_s": 42,
+      "progression_speed_mps": -9,
+      "mean_delay_s": 41.42531309897335,
+      "seed_delays": [
+        41.48771014492754,
+        41.36291605301915
+      ]
+    },
+    {
+      "avenue_green_s": 46,
+      "cross_green_s": 36,
+      "progression_speed_mps": 0,
+      "mean_delay_s": 42.244203784337586,
+      "seed_delays": [
+        43.856478260869565,
+        40.6319293078056
+      ]
+    },
+    {
+      "avenue_green_s": 46,
+      "cross_green_s": 36,
+      "progression_speed_mps": 6,
+      "mean_delay_s": 65.83542682119912,
+      "seed_delays": [
+        65.70457971014493,
+        65.96627393225332
+      ]
+    },
+    {
+      "avenue_green_s": 46,
+      "cross_green_s": 36,
+      "progression_speed_mps": 9,
+      "mean_delay_s": 59.31836843397153,
+      "seed_delays": [
+        59.75233333333333,
+        58.884403534609724
+      ]
+    },
+    {
+      "avenue_green_s": 46,
+      "cross_green_s": 36,
+      "progression_speed_mps": -9,
+      "mean_delay_s": 39.87938924462658,
+      "seed_delays": [
+        40.15085507246377,
+        39.6079234167894
+      ]
+    },
+    {
+      "avenue_green_s": 52,
+      "cross_green_s": 30,
+      "progression_speed_mps": 0,
+      "mean_delay_s": 44.26699217732813,
+      "seed_delays": [
+        45.92042028985507,
+        42.61356406480118
+      ]
+    },
+    {
+      "avenue_green_s": 52,
+      "cross_green_s": 30,
+      "progression_speed_mps": 6,
+      "mean_delay_s": 52.42199508014771,
+      "seed_delays": [
+        51.67097101449276,
+        53.173019145802655
+      ]
+    },
+    {
+      "avenue_green_s": 52,
+      "cross_green_s": 30,
+      "progression_speed_mps": 9,
+      "mean_delay_s": 51.64309101193144,
+      "seed_delays": [
+        52.673855072463766,
+        50.61232695139911
+      ]
+    },
+    {
+      "avenue_green_s": 52,
+      "cross_green_s": 30,
+      "progression_speed_mps": -9,
+      "mean_delay_s": 39.10838832682333,
+      "seed_delays": [
+        39.56169565217391,
+        38.65508100147275
+      ]
+    },
+    {
+      "avenue_green_s": 58,
+      "cross_green_s": 24,
+      "progression_speed_mps": 0,
+      "mean_delay_s": 50.41145954195214,
+      "seed_delays": [
+        52.853449275362316,
+        47.96946980854197
+      ]
+    },
+    {
+      "avenue_green_s": 58,
+      "cross_green_s": 24,
+      "progression_speed_mps": 6,
+      "mean_delay_s": 51.15533202066125,
+      "seed_delays": [
+        51.24810144927537,
+        51.06256259204713
+      ]
+    },
+    {
+      "avenue_green_s": 58,
+      "cross_green_s": 24,
+      "progression_speed_mps": 9,
+      "mean_delay_s": 47.49905081001473,
+      "seed_delays": [
+        49.339000000000006,
+        45.65910162002945
+      ]
+    },
+    {
+      "avenue_green_s": 58,
+      "cross_green_s": 24,
+      "progression_speed_mps": -9,
+      "mean_delay_s": 42.61144949947707,
+      "seed_delays": [
+        44.15650724637681,
+        41.066391752577324
+      ]
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "audit_generated_at_utc": "2026-09-21T15:28:17.861877+00:00",
+  "atr_locations_2022_onward": {
+    "location_year_rows": 448,
+    "by_borough": {
+      "Bronx": 73,
+      "Brooklyn": 161,
+      "Manhattan": 97,
+      "Queens": 100,
+      "Staten Island": 17
+    },
+    "by_year": {
+      "2022": 101,
+      "2023": 128,
+      "2024": 105,
+      "2025": 101,
+      "2026": 13
+    },
+    "note": "Aggregates are not unique sites, dates, vehicle counts or a spatial coverage proof."
+  },
+  "atr_locations_all_years": {
+    "location_year_rows": 3249,
+    "by_borough": {
+      "Brooklyn": 1335,
+      "Manhattan": 764,
+      "Queens": 1150
+    },
+    "by_year": {
+      "2000": 1,
+      "2006": 2,
+      "2007": 14,
+      "2008": 31,
+      "2009": 349,
+      "2010": 279,
+      "2011": 246,
+      "2012": 276,
+      "2013": 275,
+      "2014": 222,
+      "2015": 237,
+      "2016": 240,
+      "2017": 219,
+      "2018": 166,
+      "2019": 166,
+      "2020": 39,
+      "2021": 129,
+      "2022": 78,
+      "2023": 98,
+      "2024": 91,
+      "2025": 82,
+      "2026": 9
+    },
+    "note": "Aggregates are not unique sites, dates, vehicle counts or a spatial coverage proof."
+  },
+  "mim": {
+    "rows": 351,
+    "rows_with_positive_samples_time_and_window": 213,
+    "by_borough": {
+      "Manhattan": 180,
+      "Brooklyn": 46,
+      "Queens": 89,
+      "Staten Island": 36
+    },
+    "aggregation_period_seconds": {
+      "900": 213,
+      "0": 138
+    },
+    "feed_timestamps_as_supplied": [
+      "9/21/2026 11:21:24"
+    ],
+    "target_links": [
+      {
+        "sid": "023017",
+        "link_name": "6th Avenue - Northbound - 34th St to 42nd St",
+        "borough": "Manhattan",
+        "polyline": "c}uwFnvqbMu^wU",
+        "link_length_ft": "2105.46",
+        "aggregation_period_sec": "900",
+        "n_samples": "26",
+        "median_calculation_timestamp": "9/21/2026 11:21:24",
+        "median_tt_sec": "408.5",
+        "median_speed_fps": "5.15"
+      },
+      {
+        "sid": "059060",
+        "link_name": "7th Avenue - Southbound - 42nd St to 34th St",
+        "borough": "Manhattan",
+        "polyline": "edwwFjqqbMvNpJlJvGfBdA`@P",
+        "link_length_ft": "2103.3",
+        "aggregation_period_sec": "900",
+        "n_samples": "11",
+        "median_calculation_timestamp": "9/21/2026 11:21:24",
+        "median_tt_sec": "251",
+        "median_speed_fps": "8.38"
+      },
+      {
+        "sid": "071201",
+        "link_name": "Atlantic Avenue - Eastbound - Flatbush Ave to Carlton Ave",
+        "borough": "Brooklyn",
+        "polyline": "}aiwFvuobMnBaHzBuRdBiL",
+        "link_length_ft": "1965.26",
+        "aggregation_period_sec": "900",
+        "n_samples": "47",
+        "median_calculation_timestamp": "9/21/2026 11:21:24",
+        "median_tt_sec": "88",
+        "median_speed_fps": "22.33"
+      },
+      {
+        "sid": "201071",
+        "link_name": "Atlantic Avenue - Westbound - Carlton Ave to Flatbush Ave",
+        "borough": "Brooklyn",
+        "polyline": "uxhwFpknbMo@bFe@rE}B~QeBhH",
+        "link_length_ft": "1953.12",
+        "aggregation_period_sec": "900",
+        "n_samples": "54",
+        "median_calculation_timestamp": "9/21/2026 11:21:24",
+        "median_tt_sec": "153",
+        "median_speed_fps": "12.77"
+      },
+      {
+        "sid": "047023",
+        "link_name": "6th Avenue - Northbound - 23rd St to 34th ST",
+        "borough": "Manhattan",
+        "polyline": "artwF~urbMeCaB}]oUMOoFmD",
+        "link_length_ft": "2874.47",
+        "aggregation_period_sec": "0",
+        "n_samples": "0",
+        "median_calculation_timestamp": "9/21/2026 11:21:24",
+        "median_tt_sec": "0",
+        "median_speed_fps": "0"
+      },
+      {
+        "sid": "060106",
+        "link_name": "7th Avenue - Southbound - 34th St to 23rd St",
+        "borough": "Manhattan",
+        "polyline": "sdvwFlhrbM`j@n^",
+        "link_length_ft": "2873.73",
+        "aggregation_period_sec": "0",
+        "n_samples": "0",
+        "median_calculation_timestamp": "9/21/2026 11:21:24",
+        "median_tt_sec": "0",
+        "median_speed_fps": "0"
+      }
+    ],
+    "note": "Zero-sample rows are missing observations, not zero traffic or zero travel time. The feed timestamp has no timezone suffix; none is inferred here."
+  },
+  "dot_speed_sample": {
+    "rows": 2000,
+    "distinct_link_ids": 125,
+    "complete_inventory": false
+  }
+}

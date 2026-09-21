@@ -1,0 +1,23 @@
+{
+  "source": "Midtown South Mixed-Use Plan FEIS, Chapter 13, Figure 13-6a, PDF page 44",
+  "source_file": "data/nyc_audit/raw/midtown_south_transportation.pdf",
+  "reference": "June 2024 collection campaign; published existing-condition AM network",
+  "window": "08:00-09:00 weekday",
+  "units": "vehicles per hour",
+  "review": "Manually transcribed from the vector diagram and checked by conservation on every internal link. Values are published/balanced counts, not raw observations.",
+  "columns": ["avenue_through", "avenue_turn", "cross_through", "cross_turn"],
+  "counts": {
+    "7_30": [825,115,295,145],
+    "7_29": [875,95,210,140],
+    "7_28": [890,125,245,110],
+    "7_27": [995,5,25,150],
+    "7_26": [1045,100,200,130],
+    "7_25": [1085,90,160,105],
+    "6_30": [1205,110,260,150],
+    "6_29": [1235,195,155,80],
+    "6_28": [1270,115,210,160],
+    "6_27": [1215,60,115,170],
+    "6_26": [1170,145,195,105],
+    "6_25": [1245,120,145,70]
+  }
+}
