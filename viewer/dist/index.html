@@ -15,8 +15,37 @@
     <p>Sixth &amp; Seventh Avenues, West 25th–30th Streets, 12 intersections</p>
   </header>
 
+  <section class="approach-guide" aria-labelledby="guide-title">
+    <h2 id="guide-title">Experiments &amp; control approaches</h2>
+    <p>Both experiments use the same street network and compare against <strong>Tuned fixed-time</strong>: a repeating 90-second schedule with 52 seconds of avenue green, 30 seconds of cross-street green and eight seconds of clearance. Neighboring signals are timed to help vehicles progress along the avenues.</p>
+    <div class="guide-columns">
+      <section aria-labelledby="original-guide-title">
+        <h3 id="original-guide-title">Original controllers</h3>
+        <p>Can decisions at individual intersections improve on that fixed schedule? Morning and surge demand; 50 recorded runs.</p>
+        <dl>
+          <dt>Actuated</dt><dd>Switch when the other road is waiting and the current approach empties or its green reaches 40 seconds.</dd>
+          <dt>Queue pressure</dt><dd>Favor the approach with more queued demand, accounting for congestion on the roads it feeds.</dd>
+          <dt>Jev (native)</dt><dd>Every five seconds, Jev chooses whether each eligible signal holds its green or switches.</dd>
+          <dt>Bounded Jev</dt><dd>Jev can transfer five seconds of green between roads for one cycle. The cycle length and coordination stay fixed.</dd>
+        </dl>
+        <button id="show-original" class="text-button guide-link" aria-pressed="true">View original controllers</button>
+      </section>
+      <section aria-labelledby="coordinated-guide-title">
+        <h3 id="coordinated-guide-title">Coordinated plans</h3>
+        <p>Can choosing one plan for all 12 intersections help? Plans change green splits while keeping the 90-second cycle and coordination. Morning, surge and changing demand; 60 fresh runs.</p>
+        <dl>
+          <dt>Retuned fixed plan</dt><dd>One schedule chosen offline, with different green splits at different intersections. It stays fixed throughout the run.</dd>
+          <dt>Numerical plan selector</dt><dd>Every 90 seconds, choose the plan with the lowest predicted queue cost from five candidates.</dd>
+          <dt>Coordinated Jev</dt><dd>Jev chooses from those same five plans using traffic observations and forecasts. Changes begin at each signal’s next eligible cycle.</dd>
+        </dl>
+        <button id="show-coordinated" class="text-button guide-link" aria-pressed="false">View coordinated plans</button>
+      </section>
+    </div>
+    <p class="guide-note">Each table compares matched traffic within its experiment; the experiments use different random seeds. Actual Jev inference time is included. Cars travel straight <em>and turn</em>, with turn probabilities informed by the NYC counts; use 1× playback to see the turns more easily.</p>
+  </section>
+
   <section class="toolbar" aria-label="Comparison controls">
-    <label for="study">Experiment <select id="study"><option value="coordinated">Coordinated plans</option><option value="original">Original controllers</option></select></label>
+    <label for="study">Experiment <select id="study"><option value="original">Original controllers</option><option value="coordinated">Coordinated plans</option></select></label>
     <label for="scenario">Demand scenario <select id="scenario"><option value="am">Weekday morning</option><option value="surge">Morning + 50% surge</option></select></label>
     <span class="run-label" id="run-label">Recorded run</span>
     <button id="details-button" class="text-button" aria-expanded="false" aria-controls="details">Methods &amp; assumptions</button>
@@ -59,7 +88,7 @@
         <tbody id="benchmark-body"></tbody>
       </table>
     </div>
-    <p class="table-note"><em>Notes.</em> Delay includes waiting to enter and unfinished trips. Travel-time statistics cover completed trips only. Completion counts include the three-minute drain. Each controller receives identical traffic inputs for each seed.</p>
+    <p class="table-note"><em>Notes.</em> <strong>Bold</strong> marks the best mean in each column, including ties: lower is better except for completed trips, where higher is better. Winners use unrounded values; bold does not imply statistical significance. Delay includes waiting to enter and unfinished trips. Travel-time statistics cover completed trips only. Completion counts include the three-minute drain. Each controller receives identical traffic inputs for each seed.</p>
     <div class="verification"><h3>Technical checks</h3><div id="validation" class="validation"></div><p id="verification-note"></p></div>
   </section>
 

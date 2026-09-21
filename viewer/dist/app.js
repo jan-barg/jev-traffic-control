@@ -1,5 +1,5 @@
 const $=id=>document.getElementById(id);
-const state={summary:null,left:null,right:null,t:180,playing:true,speed:8,selected:null,study:'coordinated',scenario:'am',controller:'plan-jev',loading:false};
+const state={summary:null,left:null,right:null,t:180,playing:true,speed:8,selected:null,study:'original',scenario:'am',controller:'bounded-jev',loading:false};
 const cache=new Map();
 const vehicleColors=['#276aaf','#c69216','#537c3f','#ab4444','#7852a0','#277e79','#343434','#ab653e'];
 const fmt=(n,d=1)=>n==null?'—':Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});
@@ -104,10 +104,19 @@ function decision(){
 }
 function table(){
   const summary=state.summary,groups=summary.groups[state.scenario]||{};
+  const columns=[['mean_delay_s',1],['mean_completed_travel_s',1],['p95_completed_travel_s',1],['mean_queue_vehicles',1],['completed_trips',1],['unfinished_trips',1]];
+  const best=Object.fromEntries(columns.map(([key])=>{
+    const values=Object.entries(groups).filter(([controller])=>controller in summary.names).map(([,g])=>g.metrics[key]).filter(Number.isFinite);
+    return[key,values.length?(key==='completed_trips'?Math.max(...values):Math.min(...values)):null];
+  }));
   $('benchmark-body').innerHTML=Object.entries(summary.names).map(([c,name])=>{
     const g=groups[c],m=g?.metrics;
     if(!g)return `<tr><td>${name}<small>Benchmark running</small></td><td colspan="6">Results pending</td></tr>`;
-    return `<tr class="${c===state.controller?'highlight':''}"><td>${name}</td><td data-primary>${fmt(m.mean_delay_s)}</td><td>${fmt(m.mean_completed_travel_s)}</td><td>${fmt(m.p95_completed_travel_s)}</td><td>${fmt(m.mean_queue_vehicles)}</td><td>${fmt(m.completed_trips,0)}</td><td>${fmt(m.unfinished_trips,1)}</td></tr>`;
+    const cells=columns.map(([key,precision])=>{
+      const value=m[key],winner=Number.isFinite(value)&&best[key]!==null&&Math.abs(value-best[key])<1e-9;
+      return `<td data-metric="${key}">${winner?`<strong title="Best mean in this column (ties included)">${fmt(value,precision)}</strong>`:fmt(value,precision)}</td>`;
+    }).join('');
+    return `<tr data-controller="${c}" class="${c===state.controller?'highlight':''}"><td>${name}</td>${cells}</tr>`;
   }).join('');
   const p=summary.paired[state.scenario]?.[state.controller]?.metrics?.mean_delay_s;
   if(p&&groups.fixed){
@@ -158,6 +167,9 @@ async function loadComparison(){
   }catch(error){if(request===comparisonRequest)$('status').textContent=error.message;}finally{if(request===comparisonRequest)state.loading=false;}
 }
 $('study').addEventListener('change',()=>loadStudy($('study').value));
+for(const study of ['original','coordinated'])$('show-'+study).addEventListener('click',async()=>{
+  await loadStudy(study);$('study').scrollIntoView({behavior:'smooth',block:'start'});
+});
 $('scenario').addEventListener('change',()=>{state.scenario=$('scenario').value;state.selected=null;loadComparison();});
 $('controller').addEventListener('change',()=>{state.controller=$('controller').value;loadComparison();});
 $('play').addEventListener('click',()=>{state.playing=!state.playing;$('play').textContent=state.playing?'Pause':'Play';$('play').setAttribute('aria-label',state.playing?'Pause replay':'Play replay');});
@@ -185,6 +197,7 @@ async function loadStudy(study){
     if(!response.ok)throw new Error('Benchmark data is not available.');
     const summary=await response.json();if(request!==studyRequest)return;
     state.summary=summary;state.study=study;state.scenario='am';state.selected=null;state.left=null;state.right=null;
+    for(const option of ['original','coordinated'])$('show-'+option).setAttribute('aria-pressed',String(option===study));
     state.controller=study==='coordinated'?'plan-jev':'bounded-jev';
     const scenarios=summary.scenario_names||{am:'Weekday morning',surge:'Morning + 50% surge'};
     $('study').value=study;$('scenario').replaceChildren(...Object.entries(scenarios).map(([id,name])=>new Option(name,id)));
